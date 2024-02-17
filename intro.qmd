@@ -1,0 +1,116 @@
+# Introduction
+
+First, I'll admit, I'm using the operating system Marek lovingly referes to as "Wi\*\*\*ws". 
+
+A [Quarto Book](https://quarto.org/docs/books/) is my weapon of choice here, so I'm taking the "Weaving" approach, so I'm going to skip most of this chapter, which is about getting set up and different modes of running R.
+
+## Batch mode
+
+[**1.2.3. Batch mode: Working with R scripts**](https://deepr.gagolewski.com/chapter/110-basics.html#batch-mode-working-with-r-scripts)
+
+> (\*\*) In your favourite text editor (e.g., Notepad++, Kate, vi, Emacs, RStudio, or VSCodium), create a file named test.R. Write a few calls to the cat function. Then, execute this script from the terminal through Rscript.
+
+My favourite way to use the terminal at the moment is opening [Git Bash](https://gitforwindows.org/) within [RStudio](https://posit.co/download/rstudio-desktop/) so that I can execute things immediately at the project location. This book introduced me to the Rscript command, it's a pretty neat way of doing things. I can indeed `cat()` "cat" by running:
+
+```
+Rscript R/1.1_cat-cat.R
+```
+
+## Report generation
+
+[1.2.4. Weaving: Automatic report generation](https://deepr.gagolewski.com/chapter/110-basics.html#weaving-automatic-report-generation)
+
+I'll sidestep this one, which is about using `{knitr}`, on top of which I imagine much quarto functionality is built, to render a report. The example here does demonstrate something else about batch mode; you can execute an R expression in-line as well.
+    
+```
+Rscript -e 'cat("cat")'
+```
+
+I'm relying on quarto to weave.
+
+```         
+quarto render
+```
+
+## Notebooks
+
+[1.2.5. Semi-interactive modes (Jupyter Notebooks, sending code to the associated R console, etc.)](https://deepr.gagolewski.com/chapter/110-basics.html#weaving-automatic-report-generation)
+
+I'm editing a Quarto document, `intro.qmd` in RStudio, a notebook in the sense of interweaving code chunks and prose. I'll kindly ask you to take my word for it that when I press `CTRL + ENTER` against a line of code in the markdown document, it does indeed get sent to console for execution.
+
+##
+
+There is an "Example 1.4", rather than an exercise, it's just talking about notebooks.
+
+## Getting Help
+
+[1.4. Getting help](https://deepr.gagolewski.com/chapter/110-basics.html#exercises)
+
+> Sight (without going into detail) the manual on the length function by calling help("length"). Note that most help pages are structured as follows:
+>
+> Header: package:base means that the function is a base one (see Section 7.3.1 for more details on the R package system);
+>
+> 1.  Title;
+>
+> 2.  Description: a short description of what the function does;
+>
+> 3.  Usage: the list of formal arguments (parameters) to the function;
+>
+> 4.  Arguments: the meaning of each formal argument explained;
+>
+> 5.  Details: technical information;
+>
+> 6.  Value: return value explained;
+>
+> 7.  References: further reading;
+>
+> 8.  See Also: links to other help pages;
+>
+> 9.  Examples: R code that is worth inspecting.
+
+Being able to access all the necessary documentation in-situ in the IDE is fantastic, I really appreciate how much the R ecosystem is set up around this kind of documentation. One thing that seems a little loosey-goosey are around the types of the Arguments and the Value, they're not always specified and coercion or not handled in different ways. I suppose that's to be expected, not working in a strongly typed language. 
+
+This section introduced me to `help.search()` for topic searches, which is great. I will say I'm not quite so keen on relying on `help()` all the time as Marek is. It's very help()ful for a quick lookup, but I don't find it always necessarily covers all details or with total accuracy. Inevitably when issues arise I do wander over to "G**gle" and StackOverflow. 
+
+On top of that, `help()` works for checking a single function, but if want to say, explore a package, its function reference and related articles, a website usually has a much nicer user experience. I'd rather explore his stringi package via its website [stringi.gagolewski.com](https://stringi.gagolewski.com "stringi website"), for instance.
+
+## Most important atomic vectors
+
+[1.5 Exercises](https://deepr.gagolewski.com/chapter/110-basics.html#exercises)
+
+> What are the three most important types of atomic vectors?
+
+Alright, now we're talking. As discussed in [1.3. Atomic vectors at a glance](https://deepr.gagolewski.com/chapter/110-basics.html#atomic-vectors-at-a-glance), the three key types are character, numeric and logical:
+
+```{r atomic-vectors}
+strings <- c("strings", "like", "these")
+class(strings)
+
+numbers <- c(5, 6, 7, 8)
+class(numbers)
+
+booleans <- c(TRUE, FALSE, TRUE)
+class(booleans)
+```
+
+## Classification of atomic vectors
+
+> According to the classification of the R data types we introduced in the previous chapter, are atomic vectors basic or compound types?
+
+See [Classification of R data types and book structure](https://deepr.gagolewski.com/chapter/000-preface.html#classification-of-r-data-types-and-book-structure).
+
+It didn't go into much detail about what makes a type basic as opposed to compound, stating that compound types wrap around the basic types and *might* behave differently because, well, because functions might treat them differently. 
+
+Nonetheless, atomic vectors, which are sequences of values of one type, are grouped as basic types. It's a reasonable enough grouping, though `numeric` vectors in particular I could see being described as compound in a different context.
+
+```{r numeric-vectors}
+integers <- c(5L, 6L, 7L, 8L)
+class(integers)
+is.numeric(integers)
+
+doubles <- c(1, 2, 3, 4)
+class(doubles)
+is.numeric(doubles)
+```
+
+Same class, different type, but I guess we'll get on to that in the next chapter...
