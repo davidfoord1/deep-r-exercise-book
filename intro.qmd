@@ -2,7 +2,7 @@
 
 First, I'll admit, I'm using the operating system Marek lovingly referes to as "Wi\*\*\*ws". 
 
-A [Quarto Book](https://quarto.org/docs/books/) is my weapon of choice here, so I'm taking the "Weaving" approach, so I'm going to skip most of this chapter, which is about getting set up and different modes of running R.
+A [Quarto Book](https://quarto.org/docs/books/) is my weapon of choice here meaning I'm taking the "Weaving" approach. So, I'm going to skip most of this details chapter, which is about getting set up and different modes of running R.
 
 ## Batch mode
 

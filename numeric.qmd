@@ -1,6 +1,6 @@
 # Numeric vectors
 
-## `seq()` functions
+## `seq()`uences of numbers
 
 [2.1.4. Generating arithmetic progressions with seq and `:`](https://deepr.gagolewski.com/chapter/120-numeric.html#generating-arithmetic-progressions-with-seq-and)
 
@@ -141,32 +141,37 @@ plot(
 )
 ```
 
-## Exponentials and logarithms are opposites.
+## Exponentials and natural logs are opposites
 
 [2.3.3. Natural exponential function and logarithm](https://deepr.gagolewski.com/chapter/120-numeric.html#natural-exponential-function-and-logarithm)
 
 > Commonly, a logarithmic scale is used for variables that grow rapidly when expressed as functions of each other
 
-I'll just include the very nice example provided.
+I can see how it might be useful, though I'm curious to what actual examples might be (I have no statistics knowledge). I'll just include the very nice example provided.
 
 ```{r x-example}
 x <- seq(0, 10, length.out=1001)
 ```
 
-Noting that you can design a grid layout for graphics with `mfrow` and `mfcol`.
+Noting that you can design a grid layout for graphics by setting the graphical parameters `mfrow` and `mfcol` with `par()`.
 
 ```{r log-scale}
 par(mfrow=c(1, 2))
-
 plot(x, exp(x), type="l", main = "linear-scale y-axis")
 plot(x, exp(x), type="l", log="y", main = "log-scale y-axis")  
 ```
 
 > Let’s highlight that $e^{x}$   on the log-scale is nothing more than a straight line
 
-I understand it as natural log (i.e. `log()` with its default `base = exp(1)` is the opposite function to computing the exponential.
+I understand it as natural log (i.e. `log()` with its default `base = exp(1)` is the opposite function to computing the exponential. It may be helpful to compare them side-by-side.
 
+```{r exp-and-log}
+par(mfrow=c(1, 2))
+plot(x, exp(x), type="l", main = "exponential")
+plot(x, log(x), type="l", main = "natural log") 
+```
+
+Or more directly see that they cancel each other out:
 ```{r exp-log}
-# They cancel each other out. 
 exp(log(10))
 ```
