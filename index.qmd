@@ -1,13 +1,19 @@
 # Preface {.unnumbered}
 
-Hi, I'm David, some data analyst, and I'm working my own way through the book
+Hi, I'm David, some data analyst, and I'm working my own way through the book -
 
-[Deep R Programming](https://deepr.gagolewski.com/index.html) by [Marek Gagolewski](https://www.gagolewski.com/).
+## [**Deep R Programming**](https://deepr.gagolewski.com/index.html)
+
+by [**Marek Gagolewski**](https://www.gagolewski.com/)
 
 It's an open-access introductory textbook, which goes into quite some depth about the data structures and working of R. I've already read a lot of it in paper copy and rather enjoyed it, but now want to go back and work through the exercises, slowly but surely.
 
-For the most part I will only be directly quoting the exercises and responding to them, and may otherwise discuss the contents of the related book sections.
+For the most part I will only be directly quoting the exercises and responding to them, but may otherwise discuss the contents of the related book sections.
+
+## Structure
 
 I will organise the book by chapters and by exercises. Note that the exercises are numbered in order relative to their respective chapter e.g. `chapter.exercise_number`, not the subsection of the book. For example the first exercise `1.1` is found in the book section `1.2.3`. The exercises also share numbering with examples, so there may or may not always be a task. My heading numbering will match the exercise/example numbering and in most cases I will provide a link to the section of the book the exercise is featured in.
+
+## License
 
 Deep R Programming is published under the license is published under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License ([CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)).

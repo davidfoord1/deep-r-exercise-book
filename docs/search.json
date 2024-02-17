@@ -2,9 +2,30 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Deep R Programming Excercise Book",
+    "title": "Deep R Programming Exercise Book",
     "section": "",
-    "text": "Preface\nHi, I’m David, some data analyst, and I’m working my own way through the book\nDeep R Programming by Marek Gagolewski.\nIt’s an open-access introductory textbook, which goes into quite some depth about the data structures and working of R. I’ve already read a lot of it in paper copy and rather enjoyed it, but now want to go back and work through the exercises, slowly but surely.\nFor the most part I will only be directly quoting the exercises and responding to them, and may otherwise discuss the contents of the related book sections.\nI will organise the book by chapters and by exercises. Note that the exercises are numbered in order relative to their respective chapter e.g. chapter.exercise_number, not the subsection of the book. For example the first exercise 1.1 is found in the book section 1.2.3. The exercises also share numbering with examples, so there may or may not always be a task. My heading numbering will match the exercise/example numbering and in most cases I will provide a link to the section of the book the exercise is featured in.\nDeep R Programming is published under the license is published under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)."
+    "text": "Preface\nHi, I’m David, some data analyst, and I’m working my own way through the book -"
+  },
+  {
+    "objectID": "index.html#deep-r-programming",
+    "href": "index.html#deep-r-programming",
+    "title": "Deep R Programming Exercise Book",
+    "section": "Deep R Programming",
+    "text": "Deep R Programming\nby Marek Gagolewski.\nIt’s an open-access introductory textbook, which goes into quite some depth about the data structures and working of R. I’ve already read a lot of it in paper copy and rather enjoyed it, but now want to go back and work through the exercises, slowly but surely.\nFor the most part I will only be directly quoting the exercises and responding to them, and may otherwise discuss the contents of the related book sections."
+  },
+  {
+    "objectID": "index.html#structure",
+    "href": "index.html#structure",
+    "title": "Deep R Programming Exercise Book",
+    "section": "Structure",
+    "text": "Structure\nI will organise the book by chapters and by exercises. Note that the exercises are numbered in order relative to their respective chapter e.g. chapter.exercise_number, not the subsection of the book. For example the first exercise 1.1 is found in the book section 1.2.3. The exercises also share numbering with examples, so there may or may not always be a task. My heading numbering will match the exercise/example numbering and in most cases I will provide a link to the section of the book the exercise is featured in."
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "Deep R Programming Exercise Book",
+    "section": "License",
+    "text": "License\nDeep R Programming is published under the license is published under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)."
   },
   {
     "objectID": "intro.html#batch-mode",
