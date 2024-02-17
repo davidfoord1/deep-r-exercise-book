@@ -1,0 +1,172 @@
+# Numeric vectors
+
+## `seq()` functions
+
+[2.1.4. Generating arithmetic progressions with seq and `:`](https://deepr.gagolewski.com/chapter/120-numeric.html#generating-arithmetic-progressions-with-seq-and)
+
+> Take a look at the manual page of seq_along and seq_len and determine whether we can do without them, having seq at hand.
+
+So the two other functions cover cases that are handled by a single argument to `seq()`.
+
+```{r seq}
+# Sequence up to length 5
+seq(length.out = 5)
+seq_len(5)
+
+# Sequence positions of something of length 10
+seq(along.with = 1:10)
+seq_along(1:10)
+```
+
+Same results, pretty straightforward; clearly we *could* do without them. On the odd occasion I want to do positional iteration over a vector, I do tend to use `seq_along()`, but I could live with the extra 7 characters.
+
+```{r seq_along}
+count <- c(5, 6, 7, 8)
+
+# I sometimes have a construction a little like this
+for (index in seq_along(count)) {
+  print(count[[index]])
+}
+```
+
+## `scan()` in data
+
+[2.1.6. Reading data with scan](https://deepr.gagolewski.com/chapter/120-numeric.html#reading-data-with-scan)
+
+> Read the help page about scan. Take note of the following formal arguments and their meaning: dec, sep, what, comment.char, and na.strings.
+
+`scan()` reads data into a vector from file. It has *22* Arguments! Alright:
+
+-   **dec** - Specifies the character used for decimals separators. The default is the point `"."`. I imagine the most common alternative would be the comma `","`, which is a standard in much of the world as well.
+-   **sep** - Specifies a character to be interpeted as a delimiter between data. You could pass `sep = ","` for reading in a Comma Separated Values file. The default to the argument is `""` but the default behaviour is to split on whitespace.
+-   **what** - Specify the `typeof()` the data being read in.
+-   **comment.char** - If I'm understanding correctly, this is for reading in a code file and specifying a character to be interpreted as denoting the start of a comment. So you would pass `"#"` for an R file. It only takes a single-character though, so I'm not sure it could handle some other common structure, particularly for multi-lines.
+-   **na.strings** - A character vector of strings to be interpreted as `NA` values by R.
+
+## Start making a `plot()`
+
+> Somewhat misleadingly (and for reasons that will become apparent later), the documentation of plot can be accessed by calling help("plot.default"). Read about, and experiment with, different values of the main, xlab, ylab, type, col, pch, cex, lty, and lwd arguments. More plotting routines will be discussed in Chapter 13.
+
+Let's build up a plot with them to try it out.
+
+**main, xlab, ylab**
+
+A title for the plot, its x-axis and y-axis, respectively.
+
+```{r labels}
+plot(
+  0:25,
+  main = "This is what my plot's all about",
+  xlab = "This axis goes along",
+  ylab = "This axis goes up"
+)
+```
+
+**pch** 
+
+See `help("points")`. Give a number to specify the symbol to be used for the points, e.g. a solid circle or filled diamond. Numbers 0:25 have some common graphical symbols and 32:127 have other ASCII characters. Check them out:
+
+```{r pch}
+# Even specify points on the graph with a vector
+plot(
+  0:25,
+  pch = 0:25
+)
+```
+
+**cex** 
+
+Couldn't quite make them out? Specify a number by which to scale points.
+
+```{r cex}
+# Twice the size, please!
+plot(
+  0:25,
+  pch = 0:25,
+  cex = 2
+)
+```
+
+**type** 
+
+The kind of things to be drawn, including points or lines, though curiously specified with a single-character only like `"p"` or `"l"`.
+
+```{r type}
+# Let's try a line instead
+plot(
+  0:25,
+  type = "l"
+)
+```
+
+**col - Colour** 
+
+The colours used for the lines and points of the plot.
+
+```{r col}
+# Add a hint of blue
+plot(
+  0:25,
+  type = "l",
+  col = "blue"
+)
+```
+
+**lty - line-type** 
+
+Had to dig into `help("par")`. This is the line-type, you can change it from the default solid line.
+
+```{r lty}
+# We can change the line type
+plot(
+  0:25,
+  type = "l",
+  col = "blue",
+  lty = "dotted",
+)
+```
+
+**lwd - line-width** 
+
+Finally, although far from final out of all the graphical options, we can change the line width much like we can scale the symbol size.
+
+```{r lwd}
+# Triple the width!
+plot(
+  0:25,
+  type = "l",
+  col = "blue",
+  lty = "dotted",
+  lwd = 3
+)
+```
+
+## Exponentials and logarithms are opposites.
+
+[2.3.3. Natural exponential function and logarithm](https://deepr.gagolewski.com/chapter/120-numeric.html#natural-exponential-function-and-logarithm)
+
+> Commonly, a logarithmic scale is used for variables that grow rapidly when expressed as functions of each other
+
+I'll just include the very nice example provided.
+
+```{r x-example}
+x <- seq(0, 10, length.out=1001)
+```
+
+Noting that you can design a grid layout for graphics with `mfrow` and `mfcol`.
+
+```{r log-scale}
+par(mfrow=c(1, 2))
+
+plot(x, exp(x), type="l", main = "linear-scale y-axis")
+plot(x, exp(x), type="l", log="y", main = "log-scale y-axis")  
+```
+
+> Let’s highlight that $e^{x}$   on the log-scale is nothing more than a straight line
+
+I understand it as natural log (i.e. `log()` with its default `base = exp(1)` is the opposite function to computing the exponential.
+
+```{r exp-log}
+# They cancel each other out. 
+exp(log(10))
+```
