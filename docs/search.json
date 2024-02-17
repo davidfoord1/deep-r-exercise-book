@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Deep R Programming Excercise Book",
+    "section": "",
+    "text": "Preface\nHi I’m David, some data analyst, and I’m working my own way through the book Deep R Programming by Marek Gagolewski. It’s an open-access introductory textbook, which goes into quite some depth about the data structures and working of R. I’ve already read a lot of it in paper copy and rather enjoyed it, but now want to go back and work through the exercises, slowly but surely.\nFor the most part I will only be directly quoting the exercises, I may otherwise discuss topics covered in the book and will be linking directly to the relevant chapters.\nI will organise the book by chapters and by exercises. Note that the exercises are numbered in order relative to their respective chapter e.g. chapter.exercise_number, not the subsection of the book. For example the first exercise 1.1 is found in the book section 1.2.3.\nDeep R Programming is published under the license is published under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)."
+  },
+  {
+    "objectID": "intro.html#batch-mode",
+    "href": "intro.html#batch-mode",
+    "title": "1  Introduction",
+    "section": "1.1 Batch mode",
+    "text": "1.1 Batch mode\n1.2.3. Batch mode: Working with R scripts\n\n(**) In your favourite text editor (e.g., Notepad++, Kate, vi, Emacs, RStudio, or VSCodium), create a file named test.R. Write a few calls to the cat function. Then, execute this script from the terminal through Rscript.\n\nMy favourite way to use the terminal at the moment is opening Git Bash within RStudio so that I can execute things immediately at the project location. This book introduced me to the Rscript command, it’s a pretty neat way of doing things. I can indeed cat() “cat” by running:\nRscript R/1.1_cat-cat.R"
+  },
+  {
+    "objectID": "intro.html#report-generation",
+    "href": "intro.html#report-generation",
+    "title": "1  Introduction",
+    "section": "1.2 Report generation",
+    "text": "1.2 Report generation\n1.2.4. Weaving: Automatic report generation\nI’ll sidestep this one, which is about using {knitr}, on top of which I imagine much quarto functionality is built, to render a report. The example here does demonstrate something else about batch mode; you can execute an R expression in-line as well.\nRscript -e 'cat(\"cat\")'\nI’m relying on quarto to weave.\nquarto render"
+  },
+  {
+    "objectID": "intro.html#notebooks",
+    "href": "intro.html#notebooks",
+    "title": "1  Introduction",
+    "section": "1.3 Notebooks",
+    "text": "1.3 Notebooks\n1.2.5. Semi-interactive modes (Jupyter Notebooks, sending code to the associated R console, etc.)\nI’m editing a Quarto document, intro.qmd in RStudio, a notebook in the sense of interweaving code chunks and prose. I’ll kindly ask you to take my word for it that when I press CTRL + ENTER against a line of code in the markdown document, it does indeed get sent to console for execution."
+  },
+  {
+    "objectID": "intro.html#section",
+    "href": "intro.html#section",
+    "title": "1  Introduction",
+    "section": "1.4 ",
+    "text": "1.4 \nThere is an “Example 1.4”, rather than an exercise, it’s just talking about notebooks."
+  },
+  {
+    "objectID": "intro.html#getting-help",
+    "href": "intro.html#getting-help",
+    "title": "1  Introduction",
+    "section": "1.5 Getting Help",
+    "text": "1.5 Getting Help\n1.4. Getting help\n\nSight (without going into detail) the manual on the length function by calling help(“length”). Note that most help pages are structured as follows:\nHeader: package:base means that the function is a base one (see Section 7.3.1 for more details on the R package system);\n\nTitle;\nDescription: a short description of what the function does;\nUsage: the list of formal arguments (parameters) to the function;\nArguments: the meaning of each formal argument explained;\nDetails: technical information;\nValue: return value explained;\nReferences: further reading;\nSee Also: links to other help pages;\nExamples: R code that is worth inspecting.\n\n\nBeing able to access all the necessary documentation in-situ in the IDE is fantastic, I really appreciate how much the R ecosystem is set up around this kind of documentation. One thing that seems a little loosey-goosey are around the types of the Arguments and the Value, they’re not always specified and coercion or not handled in different ways. I suppose that’s to be expected, not working in a strongly typed language.\nThis section introduced me to help.search() for topic searches, which is great. I will say I’m not quite so keen on relying on help() all the time as Marek is. It’s very help()ful for a quick lookup, but I don’t find it always necessarily covers all details or with total accuracy. Inevitably when issues arise I do wander over to “G**gle” and StackOverflow.\nOn top of that, help() works for checking a single function, but if want to say, explore a package, its function reference and related articles, a website usually has a much nicer user experience. I’d rather explore his stringi package via its website stringi.gagolewski.com, for instance."
+  },
+  {
+    "objectID": "intro.html#most-important-atomic-vectors",
+    "href": "intro.html#most-important-atomic-vectors",
+    "title": "1  Introduction",
+    "section": "1.6 Most important atomic vectors",
+    "text": "1.6 Most important atomic vectors\n1.5 Exercises\n\nWhat are the three most important types of atomic vectors?\n\nAlright, now we’re talking. As discussed in 1.3. Atomic vectors at a glance, the three key types are character, numeric and logical:\n\nstrings &lt;- c(\"strings\", \"like\", \"these\")\nclass(strings)\n\n[1] \"character\"\n\nnumbers &lt;- c(5, 6, 7, 8)\nclass(numbers)\n\n[1] \"numeric\"\n\nbooleans &lt;- c(TRUE, FALSE, TRUE)\nclass(booleans)\n\n[1] \"logical\""
+  },
+  {
+    "objectID": "intro.html#classification-of-atomic-vectors",
+    "href": "intro.html#classification-of-atomic-vectors",
+    "title": "1  Introduction",
+    "section": "1.7 Classification of atomic vectors",
+    "text": "1.7 Classification of atomic vectors\n\nAccording to the classification of the R data types we introduced in the previous chapter, are atomic vectors basic or compound types?\n\nSee Classification of R data types and book structure.\nIt didn’t go into much detail about what makes a type basic as opposed to compound, stating that compound types wrap around the basic types and might behave differently because, well, because functions might treat them differently.\nNonetheless, atomic vectors, which are sequences of values of one type, are grouped as basic types. It’s a reasonable enough grouping, though numeric vectors in particular I could see being described as compound in a different context.\n\nintegers &lt;- c(5L, 6L, 7L, 8L)\nclass(integers)\n\n[1] \"integer\"\n\nis.numeric(integers)\n\n[1] TRUE\n\ndoubles &lt;- c(1, 2, 3, 4)\nclass(doubles)\n\n[1] \"numeric\"\n\nis.numeric(doubles)\n\n[1] TRUE\n\n\nSame class, different type, but I guess we’ll get on to that in the next chapter…"
+  },
+  {
+    "objectID": "numeric.html#seq-functions",
+    "href": "numeric.html#seq-functions",
+    "title": "2  Numeric vectors",
+    "section": "2.1 seq() functions",
+    "text": "2.1 seq() functions\n2.1.4. Generating arithmetic progressions with seq and :\n\nTake a look at the manual page of seq_along and seq_len and determine whether we can do without them, having seq at hand.\n\nSo the two other functions cover cases that are handled by a single argument to seq().\n\n# Sequence up to length 5\nseq(length.out = 5)\n\n[1] 1 2 3 4 5\n\nseq_len(5)\n\n[1] 1 2 3 4 5\n\n# Sequence positions of something of length 10\nseq(along.with = 1:10)\n\n [1]  1  2  3  4  5  6  7  8  9 10\n\nseq_along(1:10)\n\n [1]  1  2  3  4  5  6  7  8  9 10\n\n\nSame results, pretty straightforward; clearly we could do without them. On the odd occasion I want to do positional iteration over a vector, I do tend to use seq_along(), but I could live with the extra 7 characters.\n\ncount &lt;- c(5, 6, 7, 8)\n\n# I sometimes have a construction a little like this\nfor (index in seq_along(count)) {\n  print(count[[index]])\n}\n\n[1] 5\n[1] 6\n[1] 7\n[1] 8"
+  },
+  {
+    "objectID": "numeric.html#scan-in-data",
+    "href": "numeric.html#scan-in-data",
+    "title": "2  Numeric vectors",
+    "section": "2.2 scan() in data",
+    "text": "2.2 scan() in data\n2.1.6. Reading data with scan\n\nRead the help page about scan. Take note of the following formal arguments and their meaning: dec, sep, what, comment.char, and na.strings.\n\nscan() reads data into a vector from file. It has 22 Arguments! Alright:\n\ndec - Specifies the character used for decimals separators. The default is the point \".\". I imagine the most common alternative would be the comma \",\", which is a standard in much of the world as well.\nsep - Specifies a character to be interpeted as a delimiter between data. You could pass sep = \",\" for reading in a Comma Separated Values file. The default to the argument is \"\" but the default behaviour is to split on whitespace.\nwhat - Specify the typeof() the data being read in.\ncomment.char - If I’m understanding correctly, this is for reading in a code file and specifying a character to be interpreted as denoting the start of a comment. So you would pass \"#\" for an R file. It only takes a single-character though, so I’m not sure it could handle some other common structure, particularly for multi-lines.\nna.strings - A character vector of strings to be interpreted as NA values by R."
+  },
+  {
+    "objectID": "numeric.html#start-making-a-plot",
+    "href": "numeric.html#start-making-a-plot",
+    "title": "2  Numeric vectors",
+    "section": "2.3 Start making a plot()",
+    "text": "2.3 Start making a plot()\n\nSomewhat misleadingly (and for reasons that will become apparent later), the documentation of plot can be accessed by calling help(“plot.default”). Read about, and experiment with, different values of the main, xlab, ylab, type, col, pch, cex, lty, and lwd arguments. More plotting routines will be discussed in Chapter 13.\n\nLet’s build up a plot with them to try it out.\nmain, xlab, ylab\nA title for the plot, its x-axis and y-axis, respectively.\n\nplot(\n  0:25,\n  main = \"This is what my plot's all about\",\n  xlab = \"This axis goes along\",\n  ylab = \"This axis goes up\"\n)\n\n\n\n\npch\nSee help(\"points\"). Give a number to specify the symbol to be used for the points, e.g. a solid circle or filled diamond. Numbers 0:25 have some common graphical symbols and 32:127 have other ASCII characters. Check them out:\n\n# Even specify points on the graph with a vector\nplot(\n  0:25,\n  pch = 0:25\n)\n\n\n\n\ncex\nCouldn’t quite make them out? Specify a number by which to scale points.\n\n# Twice the size, please!\nplot(\n  0:25,\n  pch = 0:25,\n  cex = 2\n)\n\n\n\n\ntype\nThe kind of things to be drawn, including points or lines, though curiously specified with a single-character only like \"p\" or \"l\".\n\n# Let's try a line instead\nplot(\n  0:25,\n  type = \"l\"\n)\n\n\n\n\ncol - Colour\nThe colours used for the lines and points of the plot.\n\n# Add a hint of blue\nplot(\n  0:25,\n  type = \"l\",\n  col = \"blue\"\n)\n\n\n\n\nlty - line-type\nHad to dig into help(\"par\"). This is the line-type, you can change it from the default solid line.\n\n# We can change the line type\nplot(\n  0:25,\n  type = \"l\",\n  col = \"blue\",\n  lty = \"dotted\",\n)\n\n\n\n\nlwd - line-width\nFinally, although far from final out of all the graphical options, we can change the line width much like we can scale the symbol size.\n\n# Triple the width!\nplot(\n  0:25,\n  type = \"l\",\n  col = \"blue\",\n  lty = \"dotted\",\n  lwd = 3\n)"
+  },
+  {
+    "objectID": "numeric.html#exponentials-and-logarithms-are-opposites.",
+    "href": "numeric.html#exponentials-and-logarithms-are-opposites.",
+    "title": "2  Numeric vectors",
+    "section": "2.4 Exponentials and logarithms are opposites.",
+    "text": "2.4 Exponentials and logarithms are opposites.\n2.3.3. Natural exponential function and logarithm\n\nCommonly, a logarithmic scale is used for variables that grow rapidly when expressed as functions of each other\n\nI’ll just include the very nice example provided.\n\nx &lt;- seq(0, 10, length.out=1001)\n\nNoting that you can design a grid layout for graphics with mfrow and mfcol.\n\npar(mfrow=c(1, 2))\n\nplot(x, exp(x), type=\"l\", main = \"linear-scale y-axis\")\nplot(x, exp(x), type=\"l\", log=\"y\", main = \"log-scale y-axis\")  \n\n\n\n\n\nLet’s highlight that \\(e^{x}\\) on the log-scale is nothing more than a straight line\n\nI understand it as natural log (i.e. log() with its default base = exp(1) is the opposite function to computing the exponential.\n\n# They cancel each other out. \nexp(log(10))\n\n[1] 10"
+  }
+]
