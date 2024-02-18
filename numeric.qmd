@@ -1,10 +1,10 @@
 # Numeric vectors
 
-## `seq()`uences of numbers
+## `seq()`ences of numbers
 
 [2.1.4. Generating arithmetic progressions with seq and `:`](https://deepr.gagolewski.com/chapter/120-numeric.html#generating-arithmetic-progressions-with-seq-and)
 
-> Take a look at the manual page of seq_along and seq_len and determine whether we can do without them, having seq at hand.
+> *Take a look at the manual page of seq_along and seq_len and determine whether we can do without them, having seq at hand.*
 
 So the two other functions cover cases that are handled by a single argument to `seq()`.
 
@@ -14,8 +14,8 @@ seq(length.out = 5)
 seq_len(5)
 
 # Sequence positions of something of length 10
-seq(along.with = 1:10)
-seq_along(1:10)
+seq(along.with = 50:59)
+seq_along(50:59)
 ```
 
 Same results, pretty straightforward; clearly we *could* do without them. On the odd occasion I want to do positional iteration over a vector, I do tend to use `seq_along()`, but I could live with the extra 7 characters.
@@ -33,7 +33,7 @@ for (index in seq_along(count)) {
 
 [2.1.6. Reading data with scan](https://deepr.gagolewski.com/chapter/120-numeric.html#reading-data-with-scan)
 
-> Read the help page about scan. Take note of the following formal arguments and their meaning: dec, sep, what, comment.char, and na.strings.
+> *Read the help page about scan. Take note of the following formal arguments and their meaning: dec, sep, what, comment.char, and na.strings.*
 
 `scan()` reads data into a vector from file. It has *22* Arguments! Alright:
 
@@ -45,7 +45,7 @@ for (index in seq_along(count)) {
 
 ## Start making a `plot()`
 
-> Somewhat misleadingly (and for reasons that will become apparent later), the documentation of plot can be accessed by calling help("plot.default"). Read about, and experiment with, different values of the main, xlab, ylab, type, col, pch, cex, lty, and lwd arguments. More plotting routines will be discussed in Chapter 13.
+> *Somewhat misleadingly (and for reasons that will become apparent later), the documentation of plot can be accessed by calling help("plot.default"). Read about, and experiment with, different values of the main, xlab, ylab, type, col, pch, cex, lty, and lwd arguments. More plotting routines will be discussed in Chapter 13.*
 
 Let's build up a plot with them to try it out.
 
@@ -62,7 +62,7 @@ plot(
 )
 ```
 
-**pch** 
+**pch**
 
 See `help("points")`. Give a number to specify the symbol to be used for the points, e.g. a solid circle or filled diamond. Numbers 0:25 have some common graphical symbols and 32:127 have other ASCII characters. Check them out:
 
@@ -74,7 +74,7 @@ plot(
 )
 ```
 
-**cex** 
+**cex**
 
 Couldn't quite make them out? Specify a number by which to scale points.
 
@@ -87,7 +87,7 @@ plot(
 )
 ```
 
-**type** 
+**type**
 
 The kind of things to be drawn, including points or lines, though curiously specified with a single-character only like `"p"` or `"l"`.
 
@@ -99,7 +99,7 @@ plot(
 )
 ```
 
-**col - Colour** 
+**col - Colour**
 
 The colours used for the lines and points of the plot.
 
@@ -112,7 +112,7 @@ plot(
 )
 ```
 
-**lty - line-type** 
+**lty - line-type**
 
 Had to dig into `help("par")`. This is the line-type, you can change it from the default solid line.
 
@@ -126,7 +126,7 @@ plot(
 )
 ```
 
-**lwd - line-width** 
+**lwd - line-width**
 
 Finally, although far from final out of all the graphical options, we can change the line width much like we can scale the symbol size.
 
@@ -145,7 +145,7 @@ plot(
 
 [2.3.3. Natural exponential function and logarithm](https://deepr.gagolewski.com/chapter/120-numeric.html#natural-exponential-function-and-logarithm)
 
-> Commonly, a logarithmic scale is used for variables that grow rapidly when expressed as functions of each other
+> *Commonly, a logarithmic scale is used for variables that grow rapidly when expressed as functions of each other*
 
 I can see how it might be useful, though I'm curious to what actual examples might be (I have no statistics knowledge). I'll just include the very nice example provided.
 
@@ -161,7 +161,7 @@ plot(x, exp(x), type="l", main = "linear-scale y-axis")
 plot(x, exp(x), type="l", log="y", main = "log-scale y-axis")  
 ```
 
-> Let’s highlight that $e^{x}$   on the log-scale is nothing more than a straight line
+> *Let's highlight that* $e^{x}$ *on the log-scale is nothing more than a straight line*
 
 I understand it as natural log (i.e. `log()` with its default `base = exp(1)` is the opposite function to computing the exponential. It may be helpful to compare them side-by-side.
 
@@ -172,6 +172,68 @@ plot(x, log(x), type="l", main = "natural log")
 ```
 
 Or more directly see that they cancel each other out:
+
 ```{r exp-log}
 exp(log(10))
 ```
+
+## Draw a `hist()`gram of different distributions
+
+[2.3.4. Probability distributions](https://deepr.gagolewski.com/chapter/120-numeric.html#probability-distributions)
+
+> *A call to hist(x) draws a histogram, which can serve as an estimator of the underlying continuous probability density function of a given sample; see [Figure 2.3](https://deepr.gagolewski.com/chapter/120-numeric.html#id27) for an illustration.*
+>
+> *Draw a histogram of some random samples of different sizes n from the following distributions:*
+>
+> -   ***rnorm**(n, µ, σ) -- normal* $N(μ, σ)$ *with expected values* $μ ∈ {−1,0,5}$ *(i.e.,* $μ$ *being equal to either* $−1, 0$, or $5$*; read "*$∈$*" as "belongs to the given set" or "in") and standard deviations* $σ ∈ {0.5,1,5}$*;*
+>
+> -   ***runif**(n, a, b) -- uniform* $U(a,b)$ *on the interval* $(a,b)$ *with* $a=0$ *and* $b=1$ *as well as* $a=−1 and b=1$*;*
+>
+> -   **rbeta**(n, α, β) -- beta $B(α,β)$ with $α,β ∈ {0.5,1,2}$;
+>
+> -   **rexp**(n, λ) -- exponential $E(λ)$ with rates $λ ∈ {0.5,1,10}$;
+>
+> *Moreover, read about and play with the breaks, main, xlab, ylab, xlim, ylim, and col parameters; see help("hist").*
+
+```{r seed}
+set.seed(12345) 
+```
+
+Uh-oh, time to learn some maths (nice, actually). Here we go:
+
+```{r rnorm}
+hist(
+  rnorm(10000, -1, 5), 
+     main = "normal distribution",
+     xlim = c(-15, 15)
+)
+```
+
+So, as I understand it here the mean, median and mode of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in.
+
+```{r runif}
+hist(
+  runif(10000, 0, 1),
+  col = c("red", "orange", "green", "yellow", "blue", "purple", "violet"),
+  breaks = 7 * 7,
+  main = "a uniform rainbow"
+)
+```
+
+He *did* say to play with `col` (colours) and `breaks` (number of bins). I note that `n = 10000` seems enough to really see the expected distribution take shape, but it's not so clear at e.g. `n = 1000` and especially `n = 100`. Though even at 10000, as you get more breaks/bins like this, the variation becomes more visible again.
+
+```{r rbeta}
+par(mfrow = c(2, 2))
+hist(rbeta(10000, 0.5, 0.5), main = "0.5s are high at the edges")
+hist(rbeta(10000, 1, 1), main = "1s are roughly uniform")
+hist(rbeta(10000, 2, 2), main = "2s are low at the edges")
+hist(rbeta(10000, 0.5, 2), main = "we can go from one extreme to the other")
+```
+
+I'm not really sure what's going on here. Roughly I understand that it produces a distribution between 0 and 1, where `shape1` perhaps has more influence closer to 0 and `shape2` closer to 1. The higher the number, the lower the density at its respective end of the distribution.
+
+```{r rexp}
+hist(rexp(10000, 10), main = "exponential distribution")
+```
+
+As we saw from the plotting `exp()` earlier, the majority sit at a very low value, until it reaches the point of rapid growth, where a rapidly decreasing amount of numbers can be found at each range on the way up. Plotting the density seems to give a horizontally flipped shape. The rate ($λ$) controls how rapid it grows.
