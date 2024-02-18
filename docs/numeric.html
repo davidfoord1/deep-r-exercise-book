@@ -420,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="numeric_files/figure-html/rnorm-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>So, as I understand it here the mean, median and mode of the distribution should approximate to the second argument, <span class="math inline">\(-1\)</span>. Then just over <span class="math inline">\(2/3\)</span> should be within <span class="math inline">\(5\)</span> (the standard deviation) either side of that, and <em>almost</em> all should be with <span class="math inline">\(15\)</span> (3 standard deviations). I used <code>xlim</code> to cut the axis to <span class="math inline">\(-15\)</span> to <span class="math inline">\(15\)</span>, but you can see the edge of remaining bins creep in.</p>
+<p>So, as I understand it here the mean, median and mode<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> of the distribution should approximate to the second argument, <span class="math inline">\(-1\)</span>. Then just over <span class="math inline">\(2/3\)</span> should be within <span class="math inline">\(5\)</span> (the standard deviation) either side of that, and <em>almost</em> all should be with <span class="math inline">\(15\)</span> (3 standard deviations). I used <code>xlim</code> to cut the axis to <span class="math inline">\(-15\)</span> to <span class="math inline">\(15\)</span>, but you can see the edge of remaining bins creep in.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
@@ -453,6 +453,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As we saw from the plotting <code>exp()</code> earlier, the majority sit at a very low value, until it reaches the point of rapid growth, where a rapidly decreasing amount of numbers can be found at each range on the way up. Plotting the density seems to give a horizontally flipped shape. The rate (<span class="math inline">\(λ\)</span>) controls how rapid it grows.</p>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>I found that while R does provide <code>mean()</code> and <code>median()</code>, the function <code>mode()</code> is more akin to <code>typeof()</code> in providing the data type/mode. There is not a standard in-built function for it.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

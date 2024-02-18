@@ -209,7 +209,9 @@ hist(
 )
 ```
 
-So, as I understand it here the mean, median and mode of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in.
+So, as I understand it here the mean, median and mode[^1] of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in.
+
+[^1]: I found that while R does provide `mean()` and `median()`, the function `mode()` is more akin to `typeof()` in providing the data type/mode. There is not a standard in-built function for the statistical mode.
 
 ```{r runif}
 hist(
