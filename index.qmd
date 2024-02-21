@@ -1,18 +1,28 @@
 # Preface {.unnumbered}
 
-Hi, I'm David, some data analyst, and I'm working my own way through the book -
+Hi, I'm David. At the time of writing, a junior data analyst who started using R for data pipelines and analysis in the middle of last year. This is my attempt at, and way of holding myself accountable for, working my way through the book:
 
 ## [**Deep R Programming**](https://deepr.gagolewski.com/index.html)
 
 by [**Marek Gagolewski**](https://www.gagolewski.com/)
 
-It's an open-access introductory textbook, which goes into quite some depth about the data structures and working of R. I've already read a lot of it in paper copy and rather enjoyed it, but now want to go back and work through the exercises, slowly but surely.
+It's an open-access introductory textbook, which goes into quite some depth about the data structures and working of R. I've actually already read a lot of it in paper copy and rather enjoyed it, but now want to go back and work through the exercises, slowly but surely.
 
-For the most part I will only be directly quoting the exercises and responding to them, but may otherwise discuss the contents of the related book sections.
+[Aims, scope, and design philosophy](https://deepr.gagolewski.com/chapter/000-preface.html#aims-scope-and-design-philosophy)
 
-## Structure
+Having been introduced to R through the [**tidyverse**](https://www.tidyverse.org/), I am among the cohort described by Marek as:
 
-I will organise the book by chapters and by exercises. Note that the exercises are numbered in order relative to their respective chapter e.g. `chapter.exercise_number`, not the subsection of the book. For example the first exercise `1.1` is found in the book section `1.2.3`. The exercises also share numbering with examples, so there may or may not always be a task. My heading numbering will match the exercise/example numbering and in most cases I will provide a link to the section of the book the exercise is featured in.
+> *isolated from base R through a thick layer of popular third-party packages that introduce an overwhelming number of functions*
+
+I'm feeling keen to get to grips with the capabilities of R itself, and understanding a bit more about what's going on under-the-hood.
+
+## Exercise Book Structure
+
+I will organise this book by chapters and by exercises. Note that the exercises are numbered in order relative to their respective chapter e.g. `chapter.exercise_number`, not the subsection of the book. For example the first exercise `1.1` is found in the book subsection `1.2.3`. As the HTML version doesn't provide a link to the exercise blocks themselves, I will link to the subsection where they can be found.
+
+The exercises also share numbering with examples, so there may or may not always be a task. My heading numbering will match the exercise/example numbering and in most cases I will provide a link to the section of the book the exercise is featured in.
+
+> *Exercises will be quoted in block quotes and italics like this*
 
 ## License
 
