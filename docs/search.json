@@ -116,6 +116,6 @@
     "href": "numeric.html#footnotes",
     "title": "2  Numeric vectors",
     "section": "",
-    "text": "I found that while R does provide mean() and median(), the function mode() is more akin to typeof() in providing the data type/mode. There is not a standard in-built function for the statistical mode.↩︎"
+    "text": "I found that while R does provide mean() and median(), the function mode() is more akin to typeof() in providing the data type/mode. There is not a standard in-built function for it.↩︎"
   }
 ]
