@@ -372,4 +372,28 @@ factorial(5 - 1)
 
 I'm not quite sure what we're being pointed to the GSL manual for, at least for `gsl_sf_poch` it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it's a bit much for me right now and I don't know where to look. Similarly `help(gsl::poch)` just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me (yet?).
 
+## `diff()` and `cumsum()`
 
+> ***diff** can be considered an inverse to **cumsum**. It computes the iterated difference: subtracts the first two elements, then the second from the third one, the third from the fourth, and so on. In other words, `diff(x)` gives* $y$ such that $y~i~ =x~i+1~ − x~i~$[^numeric-4].
+
+[^numeric-4]: Not sure how to format correctly, there's supposed to be subscripts here y~i~ =x~i+1~ −x~i~, but it's not working in the mathematical notation format.
+
+```{r triangles}
+triangular <- c(0, 1, 3, 6, 10, 15, 21, 28, 36, 45)
+
+cumsum(triangular)
+
+diff(triangular)
+```
+
+Indeed the difference goes up by one each time. Now, I want to try on a sequence *based on* iterated difference.
+
+```{r fibonacci}
+fibonacci <- c(1, 1, 2, 3, 5, 8, 13, 21, 34)
+
+cumsum(fibonacci)
+
+diff(fibonacci)
+```
+
+Aha, as one might expect, `diff` gives us much of the original sequence.

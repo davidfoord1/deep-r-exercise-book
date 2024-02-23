@@ -174,6 +174,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exponentials-and-natural-logs-are-opposites" id="toc-exponentials-and-natural-logs-are-opposites" class="nav-link" data-scroll-target="#exponentials-and-natural-logs-are-opposites"><span class="header-section-number">2.4</span> Exponentials and natural logs are opposites</a></li>
   <li><a href="#draw-a-histgram-of-probability-distributions" id="toc-draw-a-histgram-of-probability-distributions" class="nav-link" data-scroll-target="#draw-a-histgram-of-probability-distributions"><span class="header-section-number">2.5</span> Draw a <code>hist()</code>gram of probability distributions</a></li>
   <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">2.6</span> Binomial distribution</a></li>
+  <li><a href="#pockhammer-and-the-gsl-package" id="toc-pockhammer-and-the-gsl-package" class="nav-link" data-scroll-target="#pockhammer-and-the-gsl-package"><span class="header-section-number">2.7</span> Pockhammer and the gsl package</a></li>
+  <li><a href="#diff-and-cumsum" id="toc-diff-and-cumsum" class="nav-link" data-scroll-target="#diff-and-cumsum"><span class="header-section-number">2.8</span> <code>diff()</code> and <code>cumsum()</code></a></li>
   </ul>
 </nav>
     </div>
@@ -400,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>A call to hist(x) draws a histogram, which can serve as an estimator of the underlying continuous probability density function of a given sample; see <a href="https://deepr.gagolewski.com/chapter/120-numeric.html#id27">Figure 2.3</a> for an illustration.</em></p>
 <p><em>Draw a histogram of some random samples of different sizes n from the following distributions:</em></p>
 <ul>
-<li><p><em><strong>rnorm</strong>(n, µ, σ) – normal</em> <span class="math inline">\(N(μ, σ)\)</span> <em>with expected values</em> <span class="math inline">\(μ ∈ {−1,0,5}\)</span> <em>(i.e.,</em> <span class="math inline">\(μ\)</span> <em>being equal to either</em> <span class="math inline">\(−1, 0\)</span>, or <span class="math inline">\(5\)</span><em>; read “<em><span class="math inline">\(∈\)</span></em>” as “belongs to the given set” or “in”) and standard deviations</em> <span class="math inline">\(σ ∈ {0.5,1,5}\)</span><em>;</em></p></li>
+<li><p><em><strong>rnorm</strong>(n, µ, σ) – normal</em> <span class="math inline">\(N(μ, σ)\)</span> <em>with expected values</em> <span class="math inline">\(μ ∈ {−1,0,5}\)</span> <em>(i.e.,</em> <span class="math inline">\(μ\)</span> <em>being equal to either</em> <span class="math inline">\(−1, 0\)</span>, or <span class="math inline">\(5\)</span><em>; read “</em><span class="math inline">\(∈\)</span>” as “belongs to the given set” or “in”) and standard deviations <span class="math inline">\(σ ∈ {0.5,1,5}\)</span><em>;</em></p></li>
 <li><p><em><strong>runif</strong>(n, a, b) – uniform</em> <span class="math inline">\(U(a,b)\)</span> <em>on the interval</em> <span class="math inline">\((a,b)\)</span> <em>with</em> <span class="math inline">\(a=0\)</span> <em>and</em> <span class="math inline">\(b=1\)</span> <em>as well as</em> <span class="math inline">\(a=−1 and b=1\)</span><em>;</em></p></li>
 <li><p><strong>rbeta</strong>(n, α, β) – beta <span class="math inline">\(B(α,β)\)</span> with <span class="math inline">\(α,β ∈ {0.5,1,2}\)</span>;</p></li>
 <li><p><strong>rexp</strong>(n, λ) – exponential <span class="math inline">\(E(λ)\)</span> with rates <span class="math inline">\(λ ∈ {0.5,1,10}\)</span>;</p></li>
@@ -568,6 +570,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> [1] 3 3 1 1 1 1 5 4 3 2 2 6 4 1 1 3 2 3 3 1 4 2 2 1 2 1 1 3 3 4</code></pre>
 </div>
 </div>
+</section>
+<section id="pockhammer-and-the-gsl-package" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="pockhammer-and-the-gsl-package"><span class="header-section-number">2.7</span> Pockhammer and the gsl package</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/120-numeric.html#special-functions">2.3.5. Special functions</a></p>
+<blockquote class="blockquote">
+<p><em>The Pochhammer symbol,</em> <span class="math inline">\((a)x​ =Γ(a+x)/Γ(a)\)</span>, can be computed via a call to <code>gsl::poch(a, x)</code>, i.e., the poch function from the <strong>gsl</strong> package:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><em>Read the documentation of the corresponding <strong>gsl_sf_poch</strong> function in the <a href="https://www.gnu.org/software/gsl/doc/html">GNU GSL manual</a>. And when you are there, do not hesitate to go through the list of all functions, including those related to statistics, permutations, combinations, and so forth.</em></p>
+</blockquote>
+<p>Let’s try it out</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsl)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">poch</span>(<span class="dv">10</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]    1320   17160  240240 3603600</code></pre>
+</div>
+</div>
+<p>I mean, at least the R code works. Oh boy, I’m so in over my head here. Ok, a bit of a simpler definition of the gamma function is <span class="math inline">\(Γ(x) = (x - 1)!\)</span>. At least I know what factorial does, so I’ll work with this one. I think it’s appropriate for any positive integer x<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gamma</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factorial</span>(<span class="dv">5</span> <span class="sc">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+</div>
+<p>I’m not quite sure what we’re being pointed to the GSL manual for, at least for <code>gsl_sf_poch</code> it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it’s a bit much for me right now and I don’t know where to look. Similarly <code>help(gsl::poch)</code> just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me (yet?).</p>
+</section>
+<section id="diff-and-cumsum" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="diff-and-cumsum"><span class="header-section-number">2.8</span> <code>diff()</code> and <code>cumsum()</code></h2>
+<blockquote class="blockquote">
+<p><em><strong>diff</strong> can be considered an inverse to <strong>cumsum</strong>. It computes the iterated difference: subtracts the first two elements, then the second from the third one, the third from the fourth, and so on. In other words, <code>diff(x)</code> gives</em> <span class="math inline">\(y\)</span> such that <span class="math inline">\(y~i~ =x~i+1~ − x~i~\)</span><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>triangular <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">21</span>, <span class="dv">28</span>, <span class="dv">36</span>, <span class="dv">45</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(triangular)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   0   1   4  10  20  35  56  84 120 165</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(triangular)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5 6 7 8 9</code></pre>
+</div>
+</div>
+<p>Indeed the difference goes up by one each time. Now, I want to try on a sequence <em>based on</em> iterated difference.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>fibonacci <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">13</span>, <span class="dv">21</span>, <span class="dv">34</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(fibonacci)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  2  4  7 12 20 33 54 88</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(fibonacci)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0  1  1  2  3  5  8 13</code></pre>
+</div>
+</div>
+<p>Aha, as one might expect, <code>diff</code> gives us much of the original sequence.</p>
 
 
 </section>
@@ -576,6 +641,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol>
 <li id="fn1"><p>I found that while R does provide <code>mean()</code> and <code>median()</code>, the function <code>mode()</code> is more akin to <code>typeof()</code> in providing the data type/mode. There is not a standard in-built function for the statistical mode.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Amusing to discover <code>df()</code> is a distribution function in R, after seeing so many dataframes borrowing that object name.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Ooh, ooh, let me try set notation - <span class="math inline">\(x ∈ N\)</span>?<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Not sure how to format correctly, there’s supposed to be subscripts here y<sub>i</sub> =x<sub>i+1</sub> −x<sub>i</sub>, but it’s not working in the mathematical notation format.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
