@@ -202,24 +202,80 @@ set.seed(12345)
 Uh-oh, time to learn some maths (nice, actually). Here we go:
 
 ```{r rnorm}
+set_sd <- 5
+
 hist(
-  rnorm(10000, -1, 5), 
-     main = "normal distribution",
-     xlim = c(-15, 15)
+  rnorm(10000, -1, set_sd), 
+  main = "normal distribution",
+  xlim = c(-3 * set_sd, 3 * set_sd),
+  probability = TRUE
 )
+
+x <- seq(-3 * set_sd, 3 * set_sd, length.out=101) 
+lines(x, dnorm(x,-1, set_sd), lwd=2) 
 ```
 
-So, as I understand it here the mean, median and mode[^1] of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in.
+So, as I understand it here the mean, median and mode[^1] of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in. Aha, like I said, I don't know statistics. 
+
+I need to go on a tangent and finally find out what standard deviation is.
+
+```{r sd}
+body(sd)
+```
+The square root of the variance, hey? The body of `var` isn't much help because it calls some C or C++ function. Looking it up, variance is a measure of how dispersed a data set is. Standard deviation is too, but perhaps sits at a more convenient range of values for doing other things with the value. Variance is the mean of the squares of the distance from the mean. Ah, I'm going to need to try that to figure it out. 
+
+```{r var}
+var(1:100)
+
+my_var <- function(x) mean((x - mean(x))^2)
+
+my_var(1:100)
+```
+I got close, but not quite right, hmmm. Another definition specifies taking the sum of the squares of the distance by mean and dividing by $n - 1$ where n is the number of numbers. So let's try that instead of the final mean (which would be the sum divided by n).
+
+```{r var2}
+my_var2 <- function(x) sum((x - mean(x))^2) / (length(x) - 1)
+
+my_var2(1:100)
+```
+
+Aha! But there does seem to be two definitions, I'll have to revisit that. Anyway, so then we just need to take the square root:
+
+```{r my_sd}
+my_sd <- function(x) sqrt(my_var2(x))
+
+my_sd(1:100)
+
+sd(1:100)
+```
+
+Neat. Okay, it makes sense to me that distance from the mean would be used to present deviation, but I'm not quite what the rest is for. I can see that taking the square resolves negative deviation and the square root at the end somewhat rebalances it. If that were the only goal, then why wouldn't the absolute differences be used? Something like:
+
+```{r abs_dev}
+absolute_deviation <- function(x) {
+  mean(abs(x - mean(x)))
+}
+
+absolute_deviation(1:100)
+```
+Maybe that could work? Well, apparently it is a thing - [Average Absolute Deviation](https://en.wikipedia.org/wiki/Average_absolute_deviation), but I suppose for now I just have to accept that standard deviation is just that, standard.
 
 [^1]: I found that while R does provide `mean()` and `median()`, the function `mode()` is more akin to `typeof()` in providing the data type/mode. There is not a standard in-built function for the statistical mode.
 
 ```{r runif}
+unif_min <- -1
+unif_max <- 1
+
 hist(
-  runif(10000, 0, 1),
+  runif(10000, unif_min, unif_max),
   col = c("red", "orange", "green", "yellow", "blue", "purple", "violet"),
   breaks = 7 * 7,
-  main = "a uniform rainbow"
+  main = "a uniform rainbow",
+  probability = TRUE
 )
+
+x <- seq(unif_min, unif_max, length.out = 10)
+lines(x, dunif(x, unif_min, unif_max), lwd = 2)
 ```
 
 He *did* say to play with `col` (colours) and `breaks` (number of bins). I note that `n = 10000` seems enough to really see the expected distribution take shape, but it's not so clear at e.g. `n = 1000` and especially `n = 100`. Though even at 10000, as you get more breaks/bins like this, the variation becomes more visible again.

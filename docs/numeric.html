@@ -411,41 +411,109 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Uh-oh, time to learn some maths (nice, actually). Here we go:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">5</span>), </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"normal distribution"</span>,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>set_sd <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="sc">-</span><span class="dv">1</span>, set_sd), </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"normal distribution"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span> <span class="sc">*</span> set_sd, <span class="dv">3</span> <span class="sc">*</span> set_sd),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span> <span class="sc">*</span> set_sd, <span class="dv">3</span> <span class="sc">*</span> set_sd, <span class="at">length.out=</span><span class="dv">101</span>) </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dnorm</span>(x,<span class="sc">-</span><span class="dv">1</span>, set_sd), <span class="at">lwd=</span><span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="numeric_files/figure-html/rnorm-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>So, as I understand it here the mean, median and mode<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> of the distribution should approximate to the second argument, <span class="math inline">\(-1\)</span>. Then just over <span class="math inline">\(2/3\)</span> should be within <span class="math inline">\(5\)</span> (the standard deviation) either side of that, and <em>almost</em> all should be with <span class="math inline">\(15\)</span> (3 standard deviations). I used <code>xlim</code> to cut the axis to <span class="math inline">\(-15\)</span> to <span class="math inline">\(15\)</span>, but you can see the edge of remaining bins creep in.</p>
+<p>So, as I understand it here the mean, median and mode<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> of the distribution should approximate to the second argument, <span class="math inline">\(-1\)</span>. Then just over <span class="math inline">\(2/3\)</span> should be within <span class="math inline">\(5\)</span> (the standard deviation) either side of that, and <em>almost</em> all should be with <span class="math inline">\(15\)</span> (3 standard deviations). I used <code>xlim</code> to cut the axis to <span class="math inline">\(-15\)</span> to <span class="math inline">\(15\)</span>, but you can see the edge of remaining bins creep in. Aha, like I said, I don’t know statistics.</p>
+<p>I need to go on a tangent and finally find out what standard deviation is.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"green"</span>, <span class="st">"yellow"</span>, <span class="st">"blue"</span>, <span class="st">"purple"</span>, <span class="st">"violet"</span>),</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">7</span> <span class="sc">*</span> <span class="dv">7</span>,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"a uniform rainbow"</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">body</span>(sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sqrt(var(if (is.vector(x) || is.factor(x)) x else as.double(x), 
+    na.rm = na.rm))</code></pre>
+</div>
+</div>
+<p>The square root of the variance, hey? The body of <code>var</code> isn’t much help because it calls some C or C++ function. Looking it up, variance is a measure of how dispersed a data set is. Standard deviation is too, but perhaps sits at a more convenient range of values for doing other things with the value. Variance is the mean of the squares of the distance from the mean. Ah, I’m going to need to try that to figure it out.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 841.6667</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>my_var <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">my_var</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 833.25</code></pre>
+</div>
+</div>
+<p>I got close, but not quite right, hmmm. Another definition specifies taking the sum of the squares of the distance by mean and dividing by <span class="math inline">\(n - 1\)</span> where n is the number of numbers. So let’s try that instead of the final mean (which would be the sum divided by n).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>my_var2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">length</span>(x) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">my_var2</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 841.6667</code></pre>
+</div>
+</div>
+<p>Aha! But there does seem to be two definitions, I’ll have to revisit that. Anyway, so then we just need to take the square root:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>my_sd <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sqrt</span>(<span class="fu">my_var2</span>(x))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">my_sd</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 29.01149</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 29.01149</code></pre>
+</div>
+</div>
+<p>Neat. Okay, it makes sense to me that distance from the mean would be used to present deviation, but I’m not quite what the rest is for. I can see that taking the square resolves negative deviation and the square root at the end somewhat rebalances it. If that were the only goal, then why wouldn’t the absolute differences be used? Something like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>absolute_deviation <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">abs</span>(x <span class="sc">-</span> <span class="fu">mean</span>(x)))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">absolute_deviation</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25</code></pre>
+</div>
+</div>
+<p>Maybe that could work? Well, apparently it is a thing - <a href="https://en.wikipedia.org/wiki/Average_absolute_deviation">Average Absolute Deviation</a>, but I suppose for now I just have to accept that standard deviation is just that, standard.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>unif_min <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>unif_max <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">10000</span>, unif_min, unif_max),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"green"</span>, <span class="st">"yellow"</span>, <span class="st">"blue"</span>, <span class="st">"purple"</span>, <span class="st">"violet"</span>),</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">7</span> <span class="sc">*</span> <span class="dv">7</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"a uniform rainbow"</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(unif_min, unif_max, <span class="at">length.out =</span> <span class="dv">10</span>)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dunif</span>(x, unif_min, unif_max), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="numeric_files/figure-html/runif-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>He <em>did</em> say to play with <code>col</code> (colours) and <code>breaks</code> (number of bins). I note that <code>n = 10000</code> seems enough to really see the expected distribution take shape, but it’s not so clear at e.g.&nbsp;<code>n = 1000</code> and especially <code>n = 100</code>. Though even at 10000, as you get more breaks/bins like this, the variation becomes more visible again.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">main =</span> <span class="st">"0.5s are high at the edges"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">"1s are roughly uniform"</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"2s are low at the edges"</span>)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"we can go from one extreme to the other"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">main =</span> <span class="st">"0.5s are high at the edges"</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">"1s are roughly uniform"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"2s are low at the edges"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"we can go from one extreme to the other"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="numeric_files/figure-html/rbeta-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>I’m not really sure what’s going on here. Roughly I understand that it produces a distribution between 0 and 1, where <code>shape1</code> perhaps has more influence closer to 0 and <code>shape2</code> closer to 1. The higher the number, the lower the density at its respective end of the distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="dv">10</span>), <span class="at">main =</span> <span class="st">"exponential distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="dv">10</span>), <span class="at">main =</span> <span class="st">"exponential distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="numeric_files/figure-html/rexp-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -457,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>I found that while R does provide <code>mean()</code> and <code>median()</code>, the function <code>mode()</code> is more akin to <code>typeof()</code> in providing the data type/mode. There is not a standard in-built function for it.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>I found that while R does provide <code>mean()</code> and <code>median()</code>, the function <code>mode()</code> is more akin to <code>typeof()</code> in providing the data type/mode. There is not a standard in-built function for the statistical mode.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
