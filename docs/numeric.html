@@ -172,7 +172,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#scan-in-data" id="toc-scan-in-data" class="nav-link" data-scroll-target="#scan-in-data"><span class="header-section-number">2.2</span> <code>scan()</code> in data</a></li>
   <li><a href="#start-making-a-plot" id="toc-start-making-a-plot" class="nav-link" data-scroll-target="#start-making-a-plot"><span class="header-section-number">2.3</span> Start making a <code>plot()</code></a></li>
   <li><a href="#exponentials-and-natural-logs-are-opposites" id="toc-exponentials-and-natural-logs-are-opposites" class="nav-link" data-scroll-target="#exponentials-and-natural-logs-are-opposites"><span class="header-section-number">2.4</span> Exponentials and natural logs are opposites</a></li>
-  <li><a href="#draw-a-histgram-of-different-distributions" id="toc-draw-a-histgram-of-different-distributions" class="nav-link" data-scroll-target="#draw-a-histgram-of-different-distributions"><span class="header-section-number">2.5</span> Draw a <code>hist()</code>gram of different distributions</a></li>
+  <li><a href="#draw-a-histgram-of-probability-distributions" id="toc-draw-a-histgram-of-probability-distributions" class="nav-link" data-scroll-target="#draw-a-histgram-of-probability-distributions"><span class="header-section-number">2.5</span> Draw a <code>hist()</code>gram of probability distributions</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">2.6</span> Binomial distribution</a></li>
   </ul>
 </nav>
     </div>
@@ -392,8 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="draw-a-histgram-of-different-distributions" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="draw-a-histgram-of-different-distributions"><span class="header-section-number">2.5</span> Draw a <code>hist()</code>gram of different distributions</h2>
+<section id="draw-a-histgram-of-probability-distributions" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="draw-a-histgram-of-probability-distributions"><span class="header-section-number">2.5</span> Draw a <code>hist()</code>gram of probability distributions</h2>
 <p><a href="https://deepr.gagolewski.com/chapter/120-numeric.html#probability-distributions">2.3.4. Probability distributions</a></p>
 <blockquote class="blockquote">
 <p><em>A call to hist(x) draws a histogram, which can serve as an estimator of the underlying continuous probability density function of a given sample; see <a href="https://deepr.gagolewski.com/chapter/120-numeric.html#id27">Figure 2.3</a> for an illustration.</em></p>
@@ -502,23 +503,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>He <em>did</em> say to play with <code>col</code> (colours) and <code>breaks</code> (number of bins). I note that <code>n = 10000</code> seems enough to really see the expected distribution take shape, but it’s not so clear at e.g.&nbsp;<code>n = 1000</code> and especially <code>n = 100</code>. Though even at 10000, as you get more breaks/bins like this, the variation becomes more visible again.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">main =</span> <span class="st">"0.5s are high at the edges"</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">"1s are roughly uniform"</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"2s are low at the edges"</span>)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"we can go from one extreme to the other"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">main =</span> <span class="st">"0.5s are high at the edges"</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dbeta</span>(x, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">"1s are roughly uniform"</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dbeta</span>(x, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"2s are low at the edges"</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dbeta</span>(x, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rbeta</span>(<span class="dv">10000</span>, <span class="fl">0.5</span>, <span class="dv">2</span>), <span class="at">main =</span> <span class="st">"we can go from one extreme to the other"</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dbeta</span>(x, <span class="fl">0.5</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="numeric_files/figure-html/rbeta-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>I’m not really sure what’s going on here. Roughly I understand that it produces a distribution between 0 and 1, where <code>shape1</code> perhaps has more influence closer to 0 and <code>shape2</code> closer to 1. The higher the number, the lower the density at its respective end of the distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="dv">10</span>), <span class="at">main =</span> <span class="st">"exponential distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rexp</span>(<span class="dv">10000</span>, rate), <span class="at">main =</span> <span class="st">"exponential distribution"</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">dexp</span>(x, rate), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="numeric_files/figure-html/rexp-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>As we saw from the plotting <code>exp()</code> earlier, the majority sit at a very low value, until it reaches the point of rapid growth, where a rapidly decreasing amount of numbers can be found at each range on the way up. Plotting the density seems to give a horizontally flipped shape. The rate (<span class="math inline">\(λ\)</span>) controls how rapid it grows.</p>
+</section>
+<section id="binomial-distribution" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="binomial-distribution"><span class="header-section-number">2.6</span> Binomial distribution</h2>
+<p>Marek gives a really nice example here of six-sided dice rolls to explain both binomial distribution and the different distribution function prefixes R uses; d*<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, b*, q* and r*. So, binomial distribution gives us the probability distribution of successes in a sequence of tests/trials. As per the example, this could be a sequence of dice rolls with a particular face result counted as a success.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">12</span> <span class="co"># Number of trials</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span> <span class="co"># Probability of success of rolling a particular face in a single roll</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># See how likely each number of success is, from the minimum 0 times to the max n times</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, n, p), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.11 0.27 0.30 0.20 0.09 0.03 0.01 0.00 0.00 0.00 0.00 0.00 0.00</code></pre>
+</div>
+</div>
+<p>It shows 2 successes is just about the most likely (as we started from 0). Then we can check how likely it is to see a certain number of successes or fewer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">pbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, n, p), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.11 0.38 0.68 0.87 0.96 0.99 1.00 1.00 1.00 1.00 1.00 1.00 1.00</code></pre>
+</div>
+</div>
+<p>It’s very unlikely to roll more than 4 of the same face, so we see 96% probability to roll 4 or less times. By 6 rolls, it’s indistinguishable from guaranteed (at 2 decimal places), which - yeah - does make sense for a 1/6 chance. Sort of the inverse view, we can also check the smallest number of (maximum?) successes for a certain likelihood. Here we use the q (quantile) function to check by decile:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbinom</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">11</span>), n, p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0  0  1  1  2  2  2  3  3  4 12</code></pre>
+</div>
+</div>
+<p>So to reach at least 70% or 80% likelihood of rolling our number of successes or lower, that number would have to be 3, as per the 0.87 figure from the probability distribution. I am half following what’s going on 😅. Back to more familiar territory of random number generation, we can see how many successes we get across multiple sets of n attempts:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">30</span>, n, p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 3 3 1 1 1 1 5 4 3 2 2 6 4 1 1 3 2 3 3 1 4 2 2 1 2 1 1 3 3 4</code></pre>
+</div>
+</div>
 
 
 </section>
@@ -526,6 +575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 <ol>
 <li id="fn1"><p>I found that while R does provide <code>mean()</code> and <code>median()</code>, the function <code>mode()</code> is more akin to <code>typeof()</code> in providing the data type/mode. There is not a standard in-built function for the statistical mode.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Amusing to discover <code>df()</code> is a distribution function in R, after seeing so many dataframes borrowing that object name.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

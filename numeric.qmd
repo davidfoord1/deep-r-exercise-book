@@ -177,7 +177,7 @@ Or more directly see that they cancel each other out:
 exp(log(10))
 ```
 
-## Draw a `hist()`gram of different distributions
+## Draw a `hist()`gram of probability distributions
 
 [2.3.4. Probability distributions](https://deepr.gagolewski.com/chapter/120-numeric.html#probability-distributions)
 
@@ -281,17 +281,56 @@ lines(x, dunif(x, unif_min, unif_max), lwd = 2)
 He *did* say to play with `col` (colours) and `breaks` (number of bins). I note that `n = 10000` seems enough to really see the expected distribution take shape, but it's not so clear at e.g. `n = 1000` and especially `n = 100`. Though even at 10000, as you get more breaks/bins like this, the variation becomes more visible again.
 
 ```{r rbeta}
+x <- seq(0, 1, length.out = 100)
+
 par(mfrow = c(2, 2))
-hist(rbeta(10000, 0.5, 0.5), main = "0.5s are high at the edges")
-hist(rbeta(10000, 1, 1), main = "1s are roughly uniform")
-hist(rbeta(10000, 2, 2), main = "2s are low at the edges")
-hist(rbeta(10000, 0.5, 2), main = "we can go from one extreme to the other")
+hist(rbeta(10000, 0.5, 0.5), main = "0.5s are high at the edges", probability = TRUE)
+lines(x, dbeta(x, 0.5, 0.5), lwd = 2)
+
+hist(rbeta(10000, 1, 1), main = "1s are roughly uniform", probability = TRUE)
+lines(x, dbeta(x, 1, 1), lwd = 2)
+
+hist(rbeta(10000, 2, 2), main = "2s are low at the edges", probability = TRUE)
+lines(x, dbeta(x, 2, 2), lwd = 2)
+hist(rbeta(10000, 0.5, 2), main = "we can go from one extreme to the other", probability = TRUE)
+lines(x, dbeta(x, 0.5, 2), lwd = 2)
 ```
 
 I'm not really sure what's going on here. Roughly I understand that it produces a distribution between 0 and 1, where `shape1` perhaps has more influence closer to 0 and `shape2` closer to 1. The higher the number, the lower the density at its respective end of the distribution.
 
 ```{r rexp}
-hist(rexp(10000, 10), main = "exponential distribution")
+rate <- 10
+
+hist(rexp(10000, rate), main = "exponential distribution", probability = TRUE)
+
+x <- seq(0, 1, length.out = 100)
+lines(x, dexp(x, rate), lwd = 2)
 ```
 
 As we saw from the plotting `exp()` earlier, the majority sit at a very low value, until it reaches the point of rapid growth, where a rapidly decreasing amount of numbers can be found at each range on the way up. Plotting the density seems to give a horizontally flipped shape. The rate ($λ$) controls how rapid it grows.
+
+## Binomial distribution
+
+Marek gives a really nice example here of six-sided dice rolls to explain both binomial distribution and the different distribution function prefixes R uses; d\*[^2], b\*, q\* and r\*. So, binomial distribution gives us the probability distribution of successes in a sequence of tests/trials. As per the example, this could be a sequence of dice rolls with a particular face result counted as a success.
+
+[^2]: Amusing to discover `df()` is a distribution function in R, after seeing so many dataframes borrowing that object name.
+
+```{r dbinom}
+n = 12 # Number of trials
+p = 1/6 # Probability of success of rolling a particular face in a single roll
+
+# See how likely each number of success is, from the minimum 0 times to the max n times
+round(dbinom(0:n, n, p), 2)
+```
+It shows 2 successes is just about the most likely (as we started from 0). Then we can check how likely it is to see a certain number of successes or fewer.
+```{r pbinom}
+round(pbinom(0:n, n, p), 2)
+```
+It's very unlikely to roll more than 4 of the same face, so we see 96% probability to roll 4 or less times. By 6 rolls, it's indistinguishable from guaranteed (at 2 decimal places), which - yeah - does make sense for a 1/6 chance. Sort of the inverse view, we can also check the smallest number of (maximum?) successes for a certain likelihood. Here we use the q (quantile) function to check by decile:
+```{r qbinom}
+qbinom(seq(0, 1, length.out = 11), n, p)
+```
+So to reach at least 70% or 80% likelihood of rolling our number of successes or lower, that number would have to be 3, as per the 0.87 figure from the probability distribution. I am half following what's going on 😅. Back to more familiar territory of random number generation, we can see how many successes we get across multiple sets of n attempts:
+```{r rbinom}
+rbinom(30, n, p)
+```
