@@ -185,7 +185,7 @@ exp(log(10))
 >
 > *Draw a histogram of some random samples of different sizes n from the following distributions:*
 >
-> -   ***rnorm**(n, µ, σ) -- normal* $N(μ, σ)$ *with expected values* $μ ∈ {−1,0,5}$ *(i.e.,* $μ$ *being equal to either* $−1, 0$, or $5$*; read "*$∈$*" as "belongs to the given set" or "in") and standard deviations* $σ ∈ {0.5,1,5}$*;*
+> -   ***rnorm**(n, µ, σ) -- normal* $N(μ, σ)$ *with expected values* $μ ∈ {−1,0,5}$ *(i.e.,* $μ$ *being equal to either* $−1, 0$, or $5$*; read "*$∈$" as "belongs to the given set" or "in") and standard deviations $σ ∈ {0.5,1,5}$*;*
 >
 > -   ***runif**(n, a, b) -- uniform* $U(a,b)$ *on the interval* $(a,b)$ *with* $a=0$ *and* $b=1$ *as well as* $a=−1 and b=1$*;*
 >
@@ -215,14 +215,17 @@ x <- seq(-3 * set_sd, 3 * set_sd, length.out=101)
 lines(x, dnorm(x,-1, set_sd), lwd=2) 
 ```
 
-So, as I understand it here the mean, median and mode[^1] of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in. Aha, like I said, I don't know statistics. 
+So, as I understand it here the mean, median and mode[^numeric-1] of the distribution should approximate to the second argument, $-1$. Then just over $2/3$ should be within $5$ (the standard deviation) either side of that, and *almost* all should be with $15$ (3 standard deviations). I used `xlim` to cut the axis to $-15$ to $15$, but you can see the edge of remaining bins creep in. Aha, like I said, I don't know statistics.
+
+[^numeric-1]: I found that while R does provide `mean()` and `median()`, the function `mode()` is more akin to `typeof()` in providing the data type/mode. There is not a standard in-built function for the statistical mode.
 
 I need to go on a tangent and finally find out what standard deviation is.
 
 ```{r sd}
 body(sd)
 ```
-The square root of the variance, hey? The body of `var` isn't much help because it calls some C or C++ function. Looking it up, variance is a measure of how dispersed a data set is. Standard deviation is too, but perhaps sits at a more convenient range of values for doing other things with the value. Variance is the mean of the squares of the distance from the mean. Ah, I'm going to need to try that to figure it out. 
+
+The square root of the variance, hey? The body of `var` isn't much help because it calls some C or C++ function. Looking it up, variance is a measure of how dispersed a data set is. Standard deviation is too, but perhaps sits at a more convenient range of values for doing other things with the value. Variance is the mean of the squares of the distance from the mean. Ah, I'm going to need to try that to figure it out.
 
 ```{r var}
 var(1:100)
@@ -231,6 +234,7 @@ my_var <- function(x) mean((x - mean(x))^2)
 
 my_var(1:100)
 ```
+
 I got close, but not quite right, hmmm. Another definition specifies taking the sum of the squares of the distance by mean and dividing by $n - 1$ where n is the number of numbers. So let's try that instead of the final mean (which would be the sum divided by n).
 
 ```{r var2}
@@ -258,9 +262,8 @@ absolute_deviation <- function(x) {
 
 absolute_deviation(1:100)
 ```
-Maybe that could work? Well, apparently it is a thing - [Average Absolute Deviation](https://en.wikipedia.org/wiki/Average_absolute_deviation), but I suppose for now I just have to accept that standard deviation is just that, standard.
 
-[^1]: I found that while R does provide `mean()` and `median()`, the function `mode()` is more akin to `typeof()` in providing the data type/mode. There is not a standard in-built function for the statistical mode.
+Maybe that could work? Well, apparently it is a thing - [Average Absolute Deviation](https://en.wikipedia.org/wiki/Average_absolute_deviation), but I suppose for now I just have to accept that standard deviation is just that, standard.
 
 ```{r runif}
 unif_min <- -1
@@ -311,9 +314,9 @@ As we saw from the plotting `exp()` earlier, the majority sit at a very low valu
 
 ## Binomial distribution
 
-Marek gives a really nice example here of six-sided dice rolls to explain both binomial distribution and the different distribution function prefixes R uses; d\*[^2], b\*, q\* and r\*. So, binomial distribution gives us the probability distribution of successes in a sequence of tests/trials. As per the example, this could be a sequence of dice rolls with a particular face result counted as a success.
+Marek gives a really nice example here of six-sided dice rolls to explain both binomial distribution and the different distribution function prefixes R uses; d\*[^numeric-2], b\*, q\* and r\*. So, binomial distribution gives us the probability distribution of successes in a sequence of tests/trials. As per the example, this could be a sequence of dice rolls with a particular face result counted as a success.
 
-[^2]: Amusing to discover `df()` is a distribution function in R, after seeing so many dataframes borrowing that object name.
+[^numeric-2]: Amusing to discover `df()` is a distribution function in R, after seeing so many dataframes borrowing that object name.
 
 ```{r dbinom}
 n = 12 # Number of trials
@@ -322,15 +325,51 @@ p = 1/6 # Probability of success of rolling a particular face in a single roll
 # See how likely each number of success is, from the minimum 0 times to the max n times
 round(dbinom(0:n, n, p), 2)
 ```
+
 It shows 2 successes is just about the most likely (as we started from 0). Then we can check how likely it is to see a certain number of successes or fewer.
+
 ```{r pbinom}
 round(pbinom(0:n, n, p), 2)
 ```
+
 It's very unlikely to roll more than 4 of the same face, so we see 96% probability to roll 4 or less times. By 6 rolls, it's indistinguishable from guaranteed (at 2 decimal places), which - yeah - does make sense for a 1/6 chance. Sort of the inverse view, we can also check the smallest number of (maximum?) successes for a certain likelihood. Here we use the q (quantile) function to check by decile:
+
 ```{r qbinom}
 qbinom(seq(0, 1, length.out = 11), n, p)
 ```
+
 So to reach at least 70% or 80% likelihood of rolling our number of successes or lower, that number would have to be 3, as per the 0.87 figure from the probability distribution. I am half following what's going on 😅. Back to more familiar territory of random number generation, we can see how many successes we get across multiple sets of n attempts:
+
 ```{r rbinom}
 rbinom(30, n, p)
 ```
+
+## Pockhammer and the gsl package
+
+[2.3.5. Special functions](https://deepr.gagolewski.com/chapter/120-numeric.html#special-functions)
+
+> *The Pochhammer symbol,* $(a)x​ =Γ(a+x)/Γ(a)$, can be computed via a call to `gsl::poch(a, x)`, i.e., the poch function from the **gsl** package:
+
+> *Read the documentation of the corresponding **gsl_sf_poch** function in the [GNU GSL manual](https://www.gnu.org/software/gsl/doc/html). And when you are there, do not hesitate to go through the list of all functions, including those related to statistics, permutations, combinations, and so forth.*
+
+Let's try it out
+
+```{r gsl::poch}
+library(gsl)
+
+poch(10, 3:6)
+```
+
+I mean, at least the R code works. Oh boy, I'm so in over my head here. Ok, a bit of a simpler definition of the gamma function is $Γ(x) = (x - 1)!$. At least I know what factorial does, so I'll work with this one. I think it's appropriate for any positive integer x[^numeric-3].
+
+[^numeric-3]: Ooh, ooh, let me try set notation - $x ∈ N$?
+
+```{r gamma-intro}
+gamma(5)
+
+factorial(5 - 1)
+```
+
+I'm not quite sure what we're being pointed to the GSL manual for, at least for `gsl_sf_poch` it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it's a bit much for me right now and I don't know where to look. Similarly `help(gsl::poch)` just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me (yet?).
+
+
