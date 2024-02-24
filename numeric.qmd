@@ -344,7 +344,7 @@ So to reach at least 70% or 80% likelihood of rolling our number of successes or
 rbinom(30, n, p)
 ```
 
-## Pockhammer and the gsl package
+## Special functions
 
 [2.3.5. Special functions](https://deepr.gagolewski.com/chapter/120-numeric.html#special-functions)
 
@@ -362,7 +362,7 @@ poch(10, 3:6)
 
 I mean, at least the R code works. Oh boy, I'm so in over my head here. Ok, a bit of a simpler definition of the gamma function is $Γ(x) = (x - 1)!$. At least I know what factorial does, so I'll work with this one. I think it's appropriate for any positive integer x[^numeric-3].
 
-[^numeric-3]: Ooh, ooh, let me try set notation - $x ∈ N$?
+[^numeric-3]: Ooh, ooh, let me try set notation: $x ∈ N$?
 
 ```{r gamma-intro}
 gamma(5)
@@ -370,13 +370,13 @@ gamma(5)
 factorial(5 - 1)
 ```
 
-I'm not quite sure what we're being pointed to the GSL manual for, at least for `gsl_sf_poch` it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it's a bit much for me right now and I don't know where to look. Similarly `help(gsl::poch)` just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me (yet?).
+I'm not quite sure what we're being pointed to the GSL manual for, at least for `gsl_sf_poch` it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it's a bit much for me right now and I don't know where to look. Similarly `help(gsl::poch)` just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me 🤷 (yet?).
 
 ## `diff()` and `cumsum()`
 
-> ***diff** can be considered an inverse to **cumsum**. It computes the iterated difference: subtracts the first two elements, then the second from the third one, the third from the fourth, and so on. In other words, `diff(x)` gives* $y$ such that $y~i~ =x~i+1~ − x~i~$[^numeric-4].
+[2.4.4. Accumulating](https://deepr.gagolewski.com/chapter/120-numeric.html#accumulating)
 
-[^numeric-4]: Not sure how to format correctly, there's supposed to be subscripts here y~i~ =x~i+1~ −x~i~, but it's not working in the mathematical notation format.
+> ***diff** can be considered an inverse to **cumsum**. It computes the iterated difference: subtracts the first two elements, then the second from the third one, the third from the fourth, and so on. In other words, `diff(x)` gives* $y$ such that $y_i =x_{i+1} − x_i$.
 
 ```{r triangles}
 triangular <- c(0, 1, 3, 6, 10, 15, 21, 28, 36, 45)
@@ -397,3 +397,183 @@ diff(fibonacci)
 ```
 
 Aha, as one might expect, `diff` gives us much of the original sequence.
+
+## Geometric and Harmonic mean
+
+> *Let* $x$ be any vector of length $n$ with positive elements. Compute its geometric and harmonic mean, which are given by, respectively,
+
+> $\sqrt[n]{\Pi_{i=1}^{n}x_i = e^{\frac{1}{n} \sum_{i=1}^{n} logx_i}}$ and $\frac{n}{\sum_{i=1}^{n} \frac{1}{x_i}}$
+
+I rewrote that out in TeX math, which has probably helped me follow a bit better. Harmonic mean looks simpler, so I'll try that first. The length of a vector divided by the sum of one of each element of the vector, right?
+
+```{r harmonic}
+harmonic_mean <- function(x) length(x) / sum(1/x)
+```
+
+Is - is that it? Holy vectorisation! Not that this is a proper test, but let's see, the harmonic mean of 1, 4, and 4 should be 2.
+
+```{r harmonic-try}
+harmonic_mean(c(1, 4, 4))
+```
+
+Nice. Ok, geometric mean time. It looks like the exponential of (1 over the length of the vector, multiplied by the sum of the log of each element).
+
+```{r geometric}
+geometric_mean <- function(x) exp(1/length(x) * sum(log(x)))
+```
+
+So I see that $\sum_{i=1}^n$ really can just be quickly read as the `sum()` across the vector. The geometric mean of 2 and 8 should be 4:
+
+```{r geometric-try}
+geometric_mean(c(2, 8))
+```
+
+## Exercises
+
+[2.5. Exercises](https://deepr.gagolewski.com/chapter/120-numeric.html#exercises)
+
+> \*Answer the following questions.
+>
+> What is the meaning of the dot-dot-dot parameter in the definition of the c function?\*
+
+`...` arguments signify that any number[^numeric-4] of arguments can be passed, in this case they are the objects for `c()` to attempt to combine.
+
+[^numeric-4]: Well I'm sure there IS an upper limit, but "any" should be acceptable here.
+
+> *We say that the round function is vectorised. What does that mean?*
+
+When a numeric vector is passed to `round()` it will apply to every element of that vector. You don't need for instance to loop through the vector, rounding each number individually. At least at the level of R code, as I assume `round()` is looping in a faster language under-the-hood.
+
+> *What is wrong with a call to c(sqrt(1), sqrt(2), sqrt(3))?*
+
+As `sqrt()` is vectorised, it doesn't need to be called again for each number, instead you could rewrite this as `sqrt(c(1, 2, 3))`. This would make a huge difference for bigger and bigger vectors.
+
+> *What do we mean by saying that multiplication operates element by element?*
+
+When you multiply two vectors, the result will be a vector the length of the longest input vector. Each element of the result vector is the result of the individual operation of multiplying the respective elements of the input vector. Something like for vectors $z = x * y$ their elements are as \$z_i = x_i \* y_i\$
+
+> *How does the recycling rule work when applying `+`?*
+
+When summing two vectors, if one vector is shorter than the other, the shorter one will be repeated until it is the same length e.g. `1:10 + 1` is equivalent to `1:10 + rep(1, 10)`. It will happen even if the longer object length is not a multiple of shorter object length, but will throw a warning to let you know.
+
+> *How to (and why) set the seed of the pseudorandom number generator?*
+
+Use `set.seed()` as I did earlier. This is done to make sure the results are reproducible, by yourself and others, later.
+
+> *What is the difference between `NA_real_` and `NaN`?*
+
+`NA_real_` denotes a missing or unknown number in a numeric vector. `NaN` signifies an impossible operation on numeric values has been attempted, like taking the principal square root of a negative number.
+
+```{r sqrt-nan}
+# Unknown
+sqrt(NA_real_)
+
+# Impossible
+sqrt(-100)
+```
+
+> *How are default arguments specified in the manual of, e.g., the round function?*
+
+They are specified in the **Usage** section with the form `function(named_argument = default_value)`. The usage `round(x, digits = 0)` shows that by default the result of rounding will have no decimal places.
+
+> *Is a call to `rep(times=4, x=1:5)` equivalent to `rep(4, 1:5)`?*
+
+No, because based on positional argument matching, `rep(4, 1:5)` is instead equivalent to `rep(x = 4, times = 1:5)`. This is not only different, but invalid because times must either be the same length as x, or have a length of 1.
+
+> *List a few ways to generate a sequence like* $(-1, -0.75, -0.5, ..., 0.75, 1)$.
+
+By gaps of 0.25
+
+```{r seq-by}
+seq(-1, 1, 0.25)
+```
+
+By the same length of sequence
+
+```{r seq-len}
+seq(-1, 1, length.out = (9))
+```
+
+Along with a sequence of the same length
+
+```{r seq-along}
+seq(-1, 1, along.with = 1:9)
+```
+
+And noting the default already is `to = 1`
+
+```{r seq-default}
+seq(-1, by = 0.25)
+```
+
+Or do something worse like this?
+
+```{r seq-too-much}
+diff = -1 - 1
+step_size = 0.25
+steps = abs(diff / step_size)
+values = -1 + (seq_len(steps) * step_size)
+c(-1, values)
+```
+
+> *Is `-3:5` the same as `-(3:5`)`? What about the precedence of operators in expressions such as`2\^3/45\^6`,`56+4/17%%8`, and`1+-2\^3:4-1\`?*
+
+```{r 3to5}
+-3:5
+-(3:5)
+```
+
+Are different because in the first one the start of the sequence is set to negative 3 whereas in the second one the whole sequence is set to negative.
+
+In `2^3/4*5^6` taking the power of (`^`) comes first, then the the division and multipilcation is read in order. It can be understood as `((2^3)/4)*(5^6)` as the division comes before the multiplication i.e. it's not equivalent to `(2^3)/(4*(5^6))`.
+
+In `5*6+4/17%%8` it's read in the order `%%`, `*`, `/`, `+` i.e. as `((5*6)+4)/(17%%8)`.
+
+In `1+-2^3:4-1` it's read `^`, unary `-2`, `:`, binary `+`, binary `-` i.e. as `1 + (-(2^3)):4 - 1`, noting the binary `+` and `-` are outside the reach of the binary `:`.
+
+> *If* $x$ is a numeric vector of length $n$ (for some $n≥0$), how many values will `sample(x)` output?
+
+Sample will return $n$ values. If no `size` argument is passed to `sample()` it will pass `length(x)` as the `size` argument to `sample.int()`.
+
+> *Does scan support reading directly from compressed archives, e.g., .csv.gz files?*
+
+Yes, in `help(scan)`, the file argument explicitly states that this can be a compressed file. I assume this example would be covered by `gzfile()`
+
+> *When in doubt, refer back to the material discussed in this chapter or the R manual.*
+
+## Add a `legend()` to your `plot()`
+
+> *Thanks to vectorisation, implementing an example graph of arcsine and arccosine is straightforward.*
+
+> *Thusly inspired, plot the following functions:* $|sinx^2|$, $|sin|x||$, $\sqrt{⌊x⌋}$ and $1() 1 + e^{-x})$ Recall that the documentation of plot can be accessed by calling help("plot.default").
+
+```{r sinx^2}
+x <- seq(-1, 1, length.out=101) 
+
+funs <- list(
+  function(x) abs(sin(x^2)),
+  function(x) abs(sin(abs(x))),
+  function(x) sqrt(floor(x)),
+  function(x) 1/(1+exp(-x))
+)
+
+plot(x, funs[[1]](x), 
+     type = "l", lwd = 2,
+     ylab = "four functions of x?")
+lines(x, funs[[2]](x), col = "red", lwd = 2, lty = 2)
+# Oops I'm calling sqrt() on negative numbers
+lines(x, funs[[3]](x), col = "blue", lwd = 2, lty = 3)
+lines(x, funs[[4]](x), col="purple", lwd = 2, lty = 4)
+
+legend(
+  "bottomleft", 
+  vapply(funs, \(x) deparse(body(x)), character(1)),
+  lty = 1:4,
+  col = c("black", "red", "blue", "purple")
+)
+```
+
+I don't know if I did it. I certainly tried. Were they supposed to be separate? Did I interpret the notation correctly?
+
+
+

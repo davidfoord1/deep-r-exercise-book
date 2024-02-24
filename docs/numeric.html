@@ -174,8 +174,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exponentials-and-natural-logs-are-opposites" id="toc-exponentials-and-natural-logs-are-opposites" class="nav-link" data-scroll-target="#exponentials-and-natural-logs-are-opposites"><span class="header-section-number">2.4</span> Exponentials and natural logs are opposites</a></li>
   <li><a href="#draw-a-histgram-of-probability-distributions" id="toc-draw-a-histgram-of-probability-distributions" class="nav-link" data-scroll-target="#draw-a-histgram-of-probability-distributions"><span class="header-section-number">2.5</span> Draw a <code>hist()</code>gram of probability distributions</a></li>
   <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">2.6</span> Binomial distribution</a></li>
-  <li><a href="#pockhammer-and-the-gsl-package" id="toc-pockhammer-and-the-gsl-package" class="nav-link" data-scroll-target="#pockhammer-and-the-gsl-package"><span class="header-section-number">2.7</span> Pockhammer and the gsl package</a></li>
+  <li><a href="#special-functions" id="toc-special-functions" class="nav-link" data-scroll-target="#special-functions"><span class="header-section-number">2.7</span> Special functions</a></li>
   <li><a href="#diff-and-cumsum" id="toc-diff-and-cumsum" class="nav-link" data-scroll-target="#diff-and-cumsum"><span class="header-section-number">2.8</span> <code>diff()</code> and <code>cumsum()</code></a></li>
+  <li><a href="#geometric-and-harmonic-mean" id="toc-geometric-and-harmonic-mean" class="nav-link" data-scroll-target="#geometric-and-harmonic-mean"><span class="header-section-number">2.9</span> Geometric and Harmonic mean</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.10</span> Exercises</a></li>
+  <li><a href="#add-a-legend-to-your-plot" id="toc-add-a-legend-to-your-plot" class="nav-link" data-scroll-target="#add-a-legend-to-your-plot"><span class="header-section-number">2.11</span> Add a <code>legend()</code> to your <code>plot()</code></a></li>
   </ul>
 </nav>
     </div>
@@ -571,8 +574,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="pockhammer-and-the-gsl-package" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="pockhammer-and-the-gsl-package"><span class="header-section-number">2.7</span> Pockhammer and the gsl package</h2>
+<section id="special-functions" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="special-functions"><span class="header-section-number">2.7</span> Special functions</h2>
 <p><a href="https://deepr.gagolewski.com/chapter/120-numeric.html#special-functions">2.3.5. Special functions</a></p>
 <blockquote class="blockquote">
 <p><em>The Pochhammer symbol,</em> <span class="math inline">\((a)x​ =Γ(a+x)/Γ(a)\)</span>, can be computed via a call to <code>gsl::poch(a, x)</code>, i.e., the poch function from the <strong>gsl</strong> package:</p>
@@ -600,12 +603,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 24</code></pre>
 </div>
 </div>
-<p>I’m not quite sure what we’re being pointed to the GSL manual for, at least for <code>gsl_sf_poch</code> it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it’s a bit much for me right now and I don’t know where to look. Similarly <code>help(gsl::poch)</code> just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me (yet?).</p>
+<p>I’m not quite sure what we’re being pointed to the GSL manual for, at least for <code>gsl_sf_poch</code> it basically gives the same definition Marek did. Sure I can see there are loads of functions in the manual, but honestly it’s a bit much for me right now and I don’t know where to look. Similarly <code>help(gsl::poch)</code> just a whole bunch of functions. Special functions, for people who know what they are and what to do with them. Not me 🤷 (yet?).</p>
 </section>
 <section id="diff-and-cumsum" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="diff-and-cumsum"><span class="header-section-number">2.8</span> <code>diff()</code> and <code>cumsum()</code></h2>
+<p><a href="https://deepr.gagolewski.com/chapter/120-numeric.html#accumulating">2.4.4. Accumulating</a></p>
 <blockquote class="blockquote">
-<p><em><strong>diff</strong> can be considered an inverse to <strong>cumsum</strong>. It computes the iterated difference: subtracts the first two elements, then the second from the third one, the third from the fourth, and so on. In other words, <code>diff(x)</code> gives</em> <span class="math inline">\(y\)</span> such that <span class="math inline">\(y~i~ =x~i+1~ − x~i~\)</span><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p><em><strong>diff</strong> can be considered an inverse to <strong>cumsum</strong>. It computes the iterated difference: subtracts the first two elements, then the second from the third one, the third from the fourth, and so on. In other words, <code>diff(x)</code> gives</em> <span class="math inline">\(y\)</span> such that <span class="math inline">\(y_i =x_{i+1} − x_i\)</span>.</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>triangular <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">21</span>, <span class="dv">28</span>, <span class="dv">36</span>, <span class="dv">45</span>)</span>
@@ -633,6 +637,204 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Aha, as one might expect, <code>diff</code> gives us much of the original sequence.</p>
+</section>
+<section id="geometric-and-harmonic-mean" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="geometric-and-harmonic-mean"><span class="header-section-number">2.9</span> Geometric and Harmonic mean</h2>
+<blockquote class="blockquote">
+<p><em>Let</em> <span class="math inline">\(x\)</span> be any vector of length <span class="math inline">\(n\)</span> with positive elements. Compute its geometric and harmonic mean, which are given by, respectively,</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><span class="math inline">\(\sqrt[n]{\Pi_{i=1}^{n}x_i = e^{\frac{1}{n} \sum_{i=1}^{n} logx_i}}\)</span> and <span class="math inline">\(\frac{n}{\sum_{i=1}^{n} \frac{1}{x_i}}\)</span></p>
+</blockquote>
+<p>I rewrote that out in TeX math, which has probably helped me follow a bit better. Harmonic mean looks simpler, so I’ll try that first. The length of a vector divided by the sum of one of each element of the vector, right?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>harmonic_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">length</span>(x) <span class="sc">/</span> <span class="fu">sum</span>(<span class="dv">1</span><span class="sc">/</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Is - is that it? Holy vectorisation! Not that this is a proper test, but let’s see, the harmonic mean of 1, 4, and 4 should be 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">harmonic_mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>Nice. Ok, geometric mean time. It looks like the exponential of (1 over the length of the vector, multiplied by the sum of the log of each element).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>geometric_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">length</span>(x) <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So I see that <span class="math inline">\(\sum_{i=1}^n\)</span> really can just be quickly read as the <code>sum()</code> across the vector. The geometric mean of 2 and 8 should be 4:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geometric_mean</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.10</span> Exercises</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/120-numeric.html#exercises">2.5. Exercises</a></p>
+<blockquote class="blockquote">
+<p>*Answer the following questions.</p>
+<p>What is the meaning of the dot-dot-dot parameter in the definition of the c function?*</p>
+</blockquote>
+<p><code>...</code> arguments signify that any number<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> of arguments can be passed, in this case they are the objects for <code>c()</code> to attempt to combine.</p>
+<blockquote class="blockquote">
+<p><em>We say that the round function is vectorised. What does that mean?</em></p>
+</blockquote>
+<p>When a numeric vector is passed to <code>round()</code> it will apply to every element of that vector. You don’t need for instance to loop through the vector, rounding each number individually. At least at the level of R code, as I assume <code>round()</code> is looping in a faster language under-the-hood.</p>
+<blockquote class="blockquote">
+<p><em>What is wrong with a call to c(sqrt(1), sqrt(2), sqrt(3))?</em></p>
+</blockquote>
+<p>As <code>sqrt()</code> is vectorised, it doesn’t need to be called again for each number, instead you could rewrite this as <code>sqrt(c(1, 2, 3))</code>. This would make a huge difference for bigger and bigger vectors.</p>
+<blockquote class="blockquote">
+<p><em>What do we mean by saying that multiplication operates element by element?</em></p>
+</blockquote>
+<p>When you multiply two vectors, the result will be a vector the length of the longest input vector. Each element of the result vector is the result of the individual operation of multiplying the respective elements of the input vector. Something like for vectors <span class="math inline">\(z = x * y\)</span> their elements are as $z_i = x_i * y_i$</p>
+<blockquote class="blockquote">
+<p><em>How does the recycling rule work when applying <code>+</code>?</em></p>
+</blockquote>
+<p>When summing two vectors, if one vector is shorter than the other, the shorter one will be repeated until it is the same length e.g.&nbsp;<code>1:10 + 1</code> is equivalent to <code>1:10 + rep(1, 10)</code>. It will happen even if the longer object length is not a multiple of shorter object length, but will throw a warning to let you know.</p>
+<blockquote class="blockquote">
+<p><em>How to (and why) set the seed of the pseudorandom number generator?</em></p>
+</blockquote>
+<p>Use <code>set.seed()</code> as I did earlier. This is done to make sure the results are reproducible, by yourself and others, later.</p>
+<blockquote class="blockquote">
+<p><em>What is the difference between <code>NA_real_</code> and <code>NaN</code>?</em></p>
+</blockquote>
+<p><code>NA_real_</code> denotes a missing or unknown number in a numeric vector. <code>NaN</code> signifies an impossible operation on numeric values has been attempted, like taking the principal square root of a negative number.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unknown</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="cn">NA_real_</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Impossible</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in sqrt(-100): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NaN</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><em>How are default arguments specified in the manual of, e.g., the round function?</em></p>
+</blockquote>
+<p>They are specified in the <strong>Usage</strong> section with the form <code>function(named_argument = default_value)</code>. The usage <code>round(x, digits = 0)</code> shows that by default the result of rounding will have no decimal places.</p>
+<blockquote class="blockquote">
+<p><em>Is a call to <code>rep(times=4, x=1:5)</code> equivalent to <code>rep(4, 1:5)</code>?</em></p>
+</blockquote>
+<p>No, because based on positional argument matching, <code>rep(4, 1:5)</code> is instead equivalent to <code>rep(x = 4, times = 1:5)</code>. This is not only different, but invalid because times must either be the same length as x, or have a length of 1.</p>
+<blockquote class="blockquote">
+<p><em>List a few ways to generate a sequence like</em> <span class="math inline">\((-1, -0.75, -0.5, ..., 0.75, 1)\)</span>.</p>
+</blockquote>
+<p>By gaps of 0.25</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.00 -0.75 -0.50 -0.25  0.00  0.25  0.50  0.75  1.00</code></pre>
+</div>
+</div>
+<p>By the same length of sequence</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">length.out =</span> (<span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.00 -0.75 -0.50 -0.25  0.00  0.25  0.50  0.75  1.00</code></pre>
+</div>
+</div>
+<p>Along with a sequence of the same length</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">along.with =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.00 -0.75 -0.50 -0.25  0.00  0.25  0.50  0.75  1.00</code></pre>
+</div>
+</div>
+<p>And noting the default already is <code>to = 1</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.00 -0.75 -0.50 -0.25  0.00  0.25  0.50  0.75  1.00</code></pre>
+</div>
+</div>
+<p>Or do something worse like this?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>diff <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>step_size <span class="ot">=</span> <span class="fl">0.25</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">=</span> <span class="fu">abs</span>(diff <span class="sc">/</span> step_size)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>values <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> (<span class="fu">seq_len</span>(steps) <span class="sc">*</span> step_size)</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.00 -0.75 -0.50 -0.25  0.00  0.25  0.50  0.75  1.00</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><em>Is <code>-3:5</code> the same as <code>-(3:5</code>)<code>? What about the precedence of operators in expressions such as</code>2^3/45^6<code>,</code>56+4/17%%8<code>, and</code>1+-2^3:4-1`?</em></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -3 -2 -1  0  1  2  3  4  5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -3 -4 -5</code></pre>
+</div>
+</div>
+<p>Are different because in the first one the start of the sequence is set to negative 3 whereas in the second one the whole sequence is set to negative.</p>
+<p>In <code>2^3/4*5^6</code> taking the power of (<code>^</code>) comes first, then the the division and multipilcation is read in order. It can be understood as <code>((2^3)/4)*(5^6)</code> as the division comes before the multiplication i.e.&nbsp;it’s not equivalent to <code>(2^3)/(4*(5^6))</code>.</p>
+<p>In <code>5*6+4/17%%8</code> it’s read in the order <code>%%</code>, <code>*</code>, <code>/</code>, <code>+</code> i.e.&nbsp;as <code>((5*6)+4)/(17%%8)</code>.</p>
+<p>In <code>1+-2^3:4-1</code> it’s read <code>^</code>, unary <code>-2</code>, <code>:</code>, binary <code>+</code>, binary <code>-</code> i.e.&nbsp;as <code>1 + (-(2^3)):4 - 1</code>, noting the binary <code>+</code> and <code>-</code> are outside the reach of the binary <code>:</code>.</p>
+<blockquote class="blockquote">
+<p><em>If</em> <span class="math inline">\(x\)</span> is a numeric vector of length <span class="math inline">\(n\)</span> (for some <span class="math inline">\(n≥0\)</span>), how many values will <code>sample(x)</code> output?</p>
+</blockquote>
+<p>Sample will return <span class="math inline">\(n\)</span> values. If no <code>size</code> argument is passed to <code>sample()</code> it will pass <code>length(x)</code> as the <code>size</code> argument to <code>sample.int()</code>.</p>
+<blockquote class="blockquote">
+<p><em>Does scan support reading directly from compressed archives, e.g., .csv.gz files?</em></p>
+</blockquote>
+<p>Yes, in <code>help(scan)</code>, the file argument explicitly states that this can be a compressed file. I assume this example would be covered by <code>gzfile()</code></p>
+<blockquote class="blockquote">
+<p><em>When in doubt, refer back to the material discussed in this chapter or the R manual.</em></p>
+</blockquote>
+</section>
+<section id="add-a-legend-to-your-plot" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="add-a-legend-to-your-plot"><span class="header-section-number">2.11</span> Add a <code>legend()</code> to your <code>plot()</code></h2>
+<blockquote class="blockquote">
+<p><em>Thanks to vectorisation, implementing an example graph of arcsine and arccosine is straightforward.</em></p>
+</blockquote>
+<blockquote class="blockquote">
+<p><em>Thusly inspired, plot the following functions:</em> <span class="math inline">\(|sinx^2|\)</span>, <span class="math inline">\(|sin|x||\)</span>, <span class="math inline">\(\sqrt{⌊x⌋}\)</span> and <span class="math inline">\(1() 1 + e^{-x})\)</span> Recall that the documentation of plot can be accessed by calling help(“plot.default”).</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">length.out=</span><span class="dv">101</span>) </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>funs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">abs</span>(<span class="fu">sin</span>(x<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">abs</span>(<span class="fu">sin</span>(<span class="fu">abs</span>(x))),</span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">sqrt</span>(<span class="fu">floor</span>(x)),</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>x))</span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, funs[[<span class="dv">1</span>]](x), </span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"four functions of x?"</span>)</span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, funs[[<span class="dv">2</span>]](x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb89-14"><a href="#cb89-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Oops I'm calling sqrt() on negative numbers</span></span>
+<span id="cb89-15"><a href="#cb89-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, funs[[<span class="dv">3</span>]](x), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in sqrt(floor(x)): NaNs produced</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, funs[[<span class="dv">4</span>]](x), <span class="at">col=</span><span class="st">"purple"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">4</span>)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"bottomleft"</span>, </span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vapply</span>(funs, \(x) <span class="fu">deparse</span>(<span class="fu">body</span>(x)), <span class="fu">character</span>(<span class="dv">1</span>)),</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"purple"</span>)</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="numeric_files/figure-html/sinx^2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I don’t know if I did it. I certainly tried. Were they supposed to be separate? Did I interpret the notation correctly?</p>
 
 
 </section>
@@ -641,8 +843,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol>
 <li id="fn1"><p>I found that while R does provide <code>mean()</code> and <code>median()</code>, the function <code>mode()</code> is more akin to <code>typeof()</code> in providing the data type/mode. There is not a standard in-built function for the statistical mode.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Amusing to discover <code>df()</code> is a distribution function in R, after seeing so many dataframes borrowing that object name.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Ooh, ooh, let me try set notation - <span class="math inline">\(x ∈ N\)</span>?<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Not sure how to format correctly, there’s supposed to be subscripts here y<sub>i</sub> =x<sub>i+1</sub> −x<sub>i</sub>, but it’s not working in the mathematical notation format.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Ooh, ooh, let me try set notation: <span class="math inline">\(x ∈ N\)</span>?<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Well I’m sure there IS an upper limit, but “any” should be acceptable here.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
