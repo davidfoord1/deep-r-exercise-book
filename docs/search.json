@@ -154,6 +154,13 @@
     "text": "2.11 Add a legend() to your plot()\n\nThanks to vectorisation, implementing an example graph of arcsine and arccosine is straightforward.\n\n\nThusly inspired, plot the following functions: \\(|sinx^2|\\), \\(|sin|x||\\), \\(\\sqrt{⌊x⌋}\\) and \\(1() 1 + e^{-x})\\) Recall that the documentation of plot can be accessed by calling help(“plot.default”).\n\n\nx &lt;- seq(-1, 1, length.out=101) \n\nfuns &lt;- list(\n  function(x) abs(sin(x^2)),\n  function(x) abs(sin(abs(x))),\n  function(x) sqrt(floor(x)),\n  function(x) 1/(1+exp(-x))\n)\n\nplot(x, funs[[1]](x), \n     type = \"l\", lwd = 2,\n     ylab = \"four functions of x?\")\nlines(x, funs[[2]](x), col = \"red\", lwd = 2, lty = 2)\n# Oops I'm calling sqrt() on negative numbers\nlines(x, funs[[3]](x), col = \"blue\", lwd = 2, lty = 3)\n\nWarning in sqrt(floor(x)): NaNs produced\n\nlines(x, funs[[4]](x), col=\"purple\", lwd = 2, lty = 4)\n\nlegend(\n  \"bottomleft\", \n  vapply(funs, \\(x) deparse(body(x)), character(1)),\n  lty = 1:4,\n  col = c(\"black\", \"red\", \"blue\", \"purple\")\n)\n\n\n\n\nI don’t know if I did it. I certainly tried. Were they supposed to be separate? Did I interpret the notation correctly?"
   },
   {
+    "objectID": "numeric.html#vectorise-over-long-vectors",
+    "href": "numeric.html#vectorise-over-long-vectors",
+    "title": "2  Numeric vectors",
+    "section": "2.12 Vectorise over long vectors",
+    "text": "2.12 Vectorise over long vectors\n\nThe expression: \\[\n4\\sum_{i=1}^{n} \\frac{(-1)^{i+1}}{2i- 1} =  4(\\frac{1}{1}-\\frac{1}{3}+\\frac{1}{5}-\\frac{1}{7}+...)\n\\] slowly converges to \\(π\\) as \\(n\\) approaches \\(∞\\). Calculate it for \\(n = 1,000,000\\) and \\(n = 1,000,000,000\\), using the vectorised functions and operators discussed in this chapter, making use of the recycling rule as much as possible.\n\n\nalmost_pi &lt;- function(n) {\n  x &lt;- 1:n\n  \n  4 * sum(((-1)^(x + 1) / ((2 * x) - 1))\n    )\n}\n\nalmost_pi(1e6)\n\n[1] 3.141592\n\n\n\nalmost_pi(1e9)\n\n\n\n[1] 3.141593\n\n\nStarting to get a feel for this vectorisation thing. I think I’m in the right track when I’m working with \\(x\\) and not with \\(i\\) e.g. not for (i in 1:n) {...}. However, for \\(n = 1,000,000,000\\) it still did take quite some time."
+  },
+  {
     "objectID": "numeric.html#footnotes",
     "href": "numeric.html#footnotes",
     "title": "2  Numeric vectors",
