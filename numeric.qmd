@@ -591,6 +591,7 @@ almost_pi <- function(n) {
 
 almost_pi(1e6)
 ```
+
 ```{r dont-run}
 #| eval: false
 almost_pi(1e9)
@@ -598,8 +599,50 @@ almost_pi(1e9)
 
 ```{r print-around}
 #| echo: false
-# It took a while, some I'm just goint to print the result for future renders
+# It took a while, some I'm just going to print the result for future renders
 print(3.141593)
 ```
 
 Starting to get a feel for this vectorisation thing. I think I'm in the right track when I'm working with $x$ and not with $i$ e.g. not `for (i in 1:n) {...}`. However, for $n = 1,000,000,000$ it still did take quite some time.
+
+## Pearson linear correlation
+
+> -   Let x and y be two vectors of identical lengths $n$, say: \*
+
+```{r example-vectors}
+x <- rnorm(100)
+y <- 2*x+10+rnorm(100, 0, 0.5)
+```
+
+> Compute the Pearson linear correlation coefficient given by:
+
+> $$
+> r = \frac{\sum_{i=1}^n(x_i - \frac{1}{n} \sum_{j=1}^{n}x_j)(y_i - \frac{1}{n}\sum_{j=1}^n y_j)}
+> {\sqrt{\sum_{i=1}^n(x_i - \frac{1}{n} \sum_{j=1}^n x_j)^2}
+> \sqrt{(y_i - \frac{1}{n}\sum_{j=1}^n y_j)^2}}
+> $$
+
+Ok, calm down. Think in vectors. Think in vectors. Break it up. The four bracketed groups look to have the same structure, one in each half of the fraction for x, one for y. Set that out, then just apply `sum()`, `sqrt()` and `^2` as necessary. Fairly simple, after all.
+
+```{r Perason}
+pearson_coeff <- function(x, y) {
+  n = length(x)
+  stopifnot(n == length(y))
+  
+  x_group <- x - (1/n) * sum(x)
+  y_group <- y - (1/n) * sum(y)
+  
+  sum(x_group * y_group) / (sqrt(sum(x_group^2)) * sqrt(sum(y_group^2)))
+}
+
+pearson_coeff(x, y)
+```
+
+
+> To make sure you have come up with a correct implementation, compare your result to a call to 'cor(x, y)'.
+
+```{r}
+cor(x, y)
+```
+
+Success!

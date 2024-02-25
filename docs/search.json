@@ -161,6 +161,13 @@
     "text": "2.12 Vectorise over long vectors\n\nThe expression: \\[\n4\\sum_{i=1}^{n} \\frac{(-1)^{i+1}}{2i- 1} =  4(\\frac{1}{1}-\\frac{1}{3}+\\frac{1}{5}-\\frac{1}{7}+...)\n\\] slowly converges to \\(π\\) as \\(n\\) approaches \\(∞\\). Calculate it for \\(n = 1,000,000\\) and \\(n = 1,000,000,000\\), using the vectorised functions and operators discussed in this chapter, making use of the recycling rule as much as possible.\n\n\nalmost_pi &lt;- function(n) {\n  x &lt;- 1:n\n  \n  4 * sum(((-1)^(x + 1) / ((2 * x) - 1))\n    )\n}\n\nalmost_pi(1e6)\n\n[1] 3.141592\n\n\n\nalmost_pi(1e9)\n\n\n\n[1] 3.141593\n\n\nStarting to get a feel for this vectorisation thing. I think I’m in the right track when I’m working with \\(x\\) and not with \\(i\\) e.g. not for (i in 1:n) {...}. However, for \\(n = 1,000,000,000\\) it still did take quite some time."
   },
   {
+    "objectID": "numeric.html#pearson-linear-correlation",
+    "href": "numeric.html#pearson-linear-correlation",
+    "title": "2  Numeric vectors",
+    "section": "2.13 Pearson linear correlation",
+    "text": "2.13 Pearson linear correlation\n\n\nLet x and y be two vectors of identical lengths \\(n\\), say: *\n\n\n\nx &lt;- rnorm(100)\ny &lt;- 2*x+10+rnorm(100, 0, 0.5)\n\n\nCompute the Pearson linear correlation coefficient given by:\n\n\n\\[\nr = \\frac{\\sum_{i=1}^n(x_i - \\frac{1}{n} \\sum_{j=1}^{n}x_j)(y_i - \\frac{1}{n}\\sum_{j=1}^n y_j)}\n{\\sqrt{\\sum_{i=1}^n(x_i - \\frac{1}{n} \\sum_{j=1}^n x_j)^2}\n\\sqrt{(y_i - \\frac{1}{n}\\sum_{j=1}^n y_j)^2}}\n\\]\n\nOk, calm down. Think in vectors. Think in vectors. Break it up. The four bracketed groups look to have the same structure, one in each half of the fraction for x, one for y. Set that out, then just apply sum(), sqrt() and ^2 as necessary. Fairly simple, after all.\n\npearson_coeff &lt;- function(x, y) {\n  n = length(x)\n  stopifnot(n == length(y))\n  \n  x_group &lt;- x - (1/n) * sum(x)\n  y_group &lt;- y - (1/n) * sum(y)\n  \n  sum(x_group * y_group) / (sqrt(sum(x_group^2)) * sqrt(sum(y_group^2)))\n}\n\npearson_coeff(x, y)\n\n[1] 0.9657844\n\n\n\nTo make sure you have come up with a correct implementation, compare your result to a call to ‘cor(x, y)’.\n\n\ncor(x, y)\n\n[1] 0.9657844\n\n\nSuccess!"
+  },
+  {
     "objectID": "numeric.html#footnotes",
     "href": "numeric.html#footnotes",
     "title": "2  Numeric vectors",

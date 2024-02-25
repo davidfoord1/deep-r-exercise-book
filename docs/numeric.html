@@ -180,6 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.10</span> Exercises</a></li>
   <li><a href="#add-a-legend-to-your-plot" id="toc-add-a-legend-to-your-plot" class="nav-link" data-scroll-target="#add-a-legend-to-your-plot"><span class="header-section-number">2.11</span> Add a <code>legend()</code> to your <code>plot()</code></a></li>
   <li><a href="#vectorise-over-long-vectors" id="toc-vectorise-over-long-vectors" class="nav-link" data-scroll-target="#vectorise-over-long-vectors"><span class="header-section-number">2.12</span> Vectorise over long vectors</a></li>
+  <li><a href="#pearson-linear-correlation" id="toc-pearson-linear-correlation" class="nav-link" data-scroll-target="#pearson-linear-correlation"><span class="header-section-number">2.13</span> Pearson linear correlation</a></li>
   </ul>
 </nav>
     </div>
@@ -866,6 +867,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Starting to get a feel for this vectorisation thing. I think I’m in the right track when I’m working with <span class="math inline">\(x\)</span> and not with <span class="math inline">\(i\)</span> e.g.&nbsp;not <code>for (i in 1:n) {...}</code>. However, for <span class="math inline">\(n = 1,000,000,000\)</span> it still did take quite some time.</p>
+</section>
+<section id="pearson-linear-correlation" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="pearson-linear-correlation"><span class="header-section-number">2.13</span> Pearson linear correlation</h2>
+<blockquote class="blockquote">
+<ul>
+<li>Let x and y be two vectors of identical lengths <span class="math inline">\(n\)</span>, say: *</li>
+</ul>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>x<span class="sc">+</span><span class="dv">10</span><span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>Compute the Pearson linear correlation coefficient given by:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><span class="math display">\[
+r = \frac{\sum_{i=1}^n(x_i - \frac{1}{n} \sum_{j=1}^{n}x_j)(y_i - \frac{1}{n}\sum_{j=1}^n y_j)}
+{\sqrt{\sum_{i=1}^n(x_i - \frac{1}{n} \sum_{j=1}^n x_j)^2}
+\sqrt{(y_i - \frac{1}{n}\sum_{j=1}^n y_j)^2}}
+\]</span></p>
+</blockquote>
+<p>Ok, calm down. Think in vectors. Think in vectors. Break it up. The four bracketed groups look to have the same structure, one in each half of the fraction for x, one for y. Set that out, then just apply <code>sum()</code>, <code>sqrt()</code> and <code>^2</code> as necessary. Fairly simple, after all.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>pearson_coeff <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x)</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(n <span class="sc">==</span> <span class="fu">length</span>(y))</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>  x_group <span class="ot">&lt;-</span> x <span class="sc">-</span> (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(x)</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  y_group <span class="ot">&lt;-</span> y <span class="sc">-</span> (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(y)</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x_group <span class="sc">*</span> y_group) <span class="sc">/</span> (<span class="fu">sqrt</span>(<span class="fu">sum</span>(x_group<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(y_group<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pearson_coeff</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9657844</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>To make sure you have come up with a correct implementation, compare your result to a call to ‘cor(x, y)’.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9657844</code></pre>
+</div>
+</div>
+<p>Success!</p>
 
 
 </section>
