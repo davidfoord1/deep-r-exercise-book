@@ -671,3 +671,6 @@ plot(rolling_median, ylab = "[EUR/AUD] rolling median")
 ```
 
 
+## k-moving average
+
+...

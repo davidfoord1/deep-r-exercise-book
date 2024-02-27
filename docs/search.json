@@ -175,10 +175,24 @@
     "text": "2.14 Rolling averages\n\nFind an R package providing a function to compute moving (rolling) averages and medians of a given vector. Apply them on the EUR/AUD currency exchange data. Draw thus obtained smoothened versions of the time series.\n\nLooks like the package {zoo} has got it covered.\n\nlibrary(zoo)\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\neur_to_aud &lt;- scan(paste0(\"https://github.com/gagolews/teaching-data/raw/\",\n    \"master/marek/euraud-20200101-20200630.csv\"), comment.char=\"#\") \n\neur_to_aud &lt;- na.omit(eur_to_aud)\n  \nrolling_mean &lt;- zoo::rollmean(eur_to_aud, 9)\n\nplot(rolling_mean, ylab = \"[EUR/AUD] rolling mean\")\n\n\n\nrolling_median &lt;- zoo::rollmedian(eur_to_aud, 9)\n\nplot(rolling_median, ylab = \"[EUR/AUD] rolling median\")"
   },
   {
+    "objectID": "numeric.html#k-moving-average",
+    "href": "numeric.html#k-moving-average",
+    "title": "2  Numeric vectors",
+    "section": "2.15 k-moving average",
+    "text": "2.15 k-moving average\n…"
+  },
+  {
     "objectID": "numeric.html#footnotes",
     "href": "numeric.html#footnotes",
     "title": "2  Numeric vectors",
     "section": "",
     "text": "I found that while R does provide mean() and median(), the function mode() is more akin to typeof() in providing the data type/mode. There is not a standard in-built function for the statistical mode.↩︎\nAmusing to discover df() is a distribution function in R, after seeing so many dataframes borrowing that object name.↩︎\nOoh, ooh, let me try set notation: \\(x ∈ N\\)?↩︎\nWell I’m sure there IS an upper limit, but “any” should be acceptable here.↩︎"
+  },
+  {
+    "objectID": "logical.html#simplifying-predicates",
+    "href": "logical.html#simplifying-predicates",
+    "title": "3  Logical vectors",
+    "section": "3.1 Simplifying predicates",
+    "text": "3.1 Simplifying predicates\n3.3.5. Simplifying predicates\n\nAssuming that a, b, and c are numeric vectors, simplify the following expressions:\n\n\n!(b&gt;a & b&lt;c),\n\nOne of the sub-conditions has to be FALSE for the result to be TRUE:\n!b&gt;a | !b&lt;c\n\n!(a&gt;=b & b&gt;=c & a&gt;=c),\n\nSame again:\n!a&gt;=b | !b&gt;=c | !a&gt;=c\n\na&gt;b & a&lt;c | a&lt;c & a&gt;d,\n\nI think I complicated rather than simplified, but:\na&lt;c & (a&lt;b | a&gt;d)\n\na&gt;b | a&lt;=b,\n\nUhh, TRUE?\n\na&lt;=b & a&gt;c | a&gt;b & a&lt;=c,\n\nHmm, not sure this one can be simplified.\n\na&lt;=b & (a&gt;c | a&gt;b) & a&lt;=c,\n\na is less than or equal to b AND less than or equal to c, but must be greater than at least one of b OR c, so always: FALSE.\n\n!all(a &gt; b & b &lt; c).\n\nIf all(p) is equivalent to !any(!p) then isn’t !all(p) equal to any(!p)?\nany(!a&gt;b | !b&lt;c)"
   }
 ]

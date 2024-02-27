@@ -1,0 +1,43 @@
+# Logical vectors
+
+## Simplifying predicates
+
+[3.3.5. Simplifying predicates](https://deepr.gagolewski.com/chapter/130-logical.html#simplifying-predicates)
+
+> Assuming that a, b, and c are numeric vectors, simplify the following expressions:
+
+> !(b\>a & b\<c),
+
+One of the sub-conditions has to be FALSE for the result to be TRUE:
+
+!b\>a \| !b\<c
+
+> !(a\>=b & b\>=c & a\>=c),
+
+Same again:
+
+!a\>=b \| !b\>=c \| !a\>=c
+
+> a\>b & a\<c \| a\<c & a\>d,
+
+I think I complicated rather than simplified, but:
+
+a\<c & (a\<b \| a\>d)
+
+> a\>b \| a\<=b,
+
+Uhh, `TRUE`?
+
+> a\<=b & a\>c \| a\>b & a\<=c,
+
+Hmm, not sure this one can be simplified.
+
+> a\<=b & (a\>c \| a\>b) & a\<=c,
+
+a is less than or equal to b AND less than or equal to c, but must be greater than at least one of b OR c, so always: `FALSE`.
+
+> !all(a \> b & b \< c).
+
+If all(p) is equivalent to !any(!p) then isn't !all(p) equal to any(!p)?
+
+any(!a\>b \| !b\<c)

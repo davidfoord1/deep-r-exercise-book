@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Deep R Programming Exercise Book - References</title>
+<title>Deep R Programming Exercise Book - 3&nbsp; Logical vectors</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -91,7 +72,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./logical.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Logical vectors</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -136,8 +117,8 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">References</span></a>
+  <a href="./logical.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Logical vectors</span></span></a>
   </div>
 </li>
     </ul>
@@ -146,14 +127,20 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#simplifying-predicates" id="toc-simplifying-predicates" class="nav-link active" data-scroll-target="#simplifying-predicates"><span class="header-section-number">3.1</span> Simplifying predicates</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Logical vectors</span></h1>
 </div>
 
 
@@ -168,11 +155,47 @@ div.csl-indent {
 
 </header>
 
-<div id="refs" role="list" style="display: none">
+<section id="simplifying-predicates" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="simplifying-predicates"><span class="header-section-number">3.1</span> Simplifying predicates</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/130-logical.html#simplifying-predicates">3.3.5. Simplifying predicates</a></p>
+<blockquote class="blockquote">
+<p>Assuming that a, b, and c are numeric vectors, simplify the following expressions:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>!(b&gt;a &amp; b&lt;c),</p>
+</blockquote>
+<p>One of the sub-conditions has to be FALSE for the result to be TRUE:</p>
+<p>!b&gt;a | !b&lt;c</p>
+<blockquote class="blockquote">
+<p>!(a&gt;=b &amp; b&gt;=c &amp; a&gt;=c),</p>
+</blockquote>
+<p>Same again:</p>
+<p>!a&gt;=b | !b&gt;=c | !a&gt;=c</p>
+<blockquote class="blockquote">
+<p>a&gt;b &amp; a&lt;c | a&lt;c &amp; a&gt;d,</p>
+</blockquote>
+<p>I think I complicated rather than simplified, but:</p>
+<p>a&lt;c &amp; (a&lt;b | a&gt;d)</p>
+<blockquote class="blockquote">
+<p>a&gt;b | a&lt;=b,</p>
+</blockquote>
+<p>Uhh, <code>TRUE</code>?</p>
+<blockquote class="blockquote">
+<p>a&lt;=b &amp; a&gt;c | a&gt;b &amp; a&lt;=c,</p>
+</blockquote>
+<p>Hmm, not sure this one can be simplified.</p>
+<blockquote class="blockquote">
+<p>a&lt;=b &amp; (a&gt;c | a&gt;b) &amp; a&lt;=c,</p>
+</blockquote>
+<p>a is less than or equal to b AND less than or equal to c, but must be greater than at least one of b OR c, so always: <code>FALSE</code>.</p>
+<blockquote class="blockquote">
+<p>!all(a &gt; b &amp; b &lt; c).</p>
+</blockquote>
+<p>If all(p) is equivalent to !any(!p) then isn’t !all(p) equal to any(!p)?</p>
+<p>any(!a&gt;b | !b&lt;c)</p>
 
-</div>
 
-
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

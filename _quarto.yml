@@ -10,7 +10,8 @@ book:
     - index.qmd
     - intro.qmd
     - numeric.qmd
-    - references.qmd
+    - logical.qmd
+  
 
 bibliography: references.bib
 
