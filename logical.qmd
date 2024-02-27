@@ -41,3 +41,36 @@ a is less than or equal to b AND less than or equal to c, but must be greater th
 If all(p) is equivalent to !any(!p) then isn't !all(p) equal to any(!p)?
 
 any(!a\>b \| !b\<c)
+
+## Nesting ifelse
+
+[3.4. Choosing elements with ifelse](https://deepr.gagolewski.com/chapter/130-logical.html#choosing-elements-with-ifelse)
+
+## `ifelse()` to generate Guassian mixtures
+
+> we generated a variate from the normal distribution that has the expected value of −2 with probability 20%, and from the one with the expectation of 3 otherwise. Thus inspired, generate the Gaussian mixtures:
+
+> $\frac{2}{3}X + \frac{1}{3}Y$, where $X ~ N(100, 16)$ and $Y ~ N(116, 8)$
+
+```{r gauss-1}
+n <- 10000
+
+z <- ifelse(runif(n) <= (2/3), rnorm(n , 100, 16), rnorm(n, 116, 8))
+
+hist(z, breaks = 101, probability = TRUE, main = "", col = "white")
+```
+
+> $0.3X + 0.4Y + 0.3Z$, where $X$ ~ $N(-10, 2)$, $Y$ ~ $N(0,2)$, and $Z $ ~ $N(10,2)$
+
+```{r}
+r <- runif(n)
+
+d <- ifelse(
+  r <= 0.2,
+  rnorm(n, -10, 2),
+  ifelse(r <= 0.7, rnorm(n, 0, 2), rnorm(n, 10, 2))
+)
+
+hist(d, breaks = 101, probability = TRUE, main = "", col = "white")
+```
+

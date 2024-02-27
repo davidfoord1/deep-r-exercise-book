@@ -194,5 +194,19 @@
     "title": "3  Logical vectors",
     "section": "3.1 Simplifying predicates",
     "text": "3.1 Simplifying predicates\n3.3.5. Simplifying predicates\n\nAssuming that a, b, and c are numeric vectors, simplify the following expressions:\n\n\n!(b&gt;a & b&lt;c),\n\nOne of the sub-conditions has to be FALSE for the result to be TRUE:\n!b&gt;a | !b&lt;c\n\n!(a&gt;=b & b&gt;=c & a&gt;=c),\n\nSame again:\n!a&gt;=b | !b&gt;=c | !a&gt;=c\n\na&gt;b & a&lt;c | a&lt;c & a&gt;d,\n\nI think I complicated rather than simplified, but:\na&lt;c & (a&lt;b | a&gt;d)\n\na&gt;b | a&lt;=b,\n\nUhh, TRUE?\n\na&lt;=b & a&gt;c | a&gt;b & a&lt;=c,\n\nHmm, not sure this one can be simplified.\n\na&lt;=b & (a&gt;c | a&gt;b) & a&lt;=c,\n\na is less than or equal to b AND less than or equal to c, but must be greater than at least one of b OR c, so always: FALSE.\n\n!all(a &gt; b & b &lt; c).\n\nIf all(p) is equivalent to !any(!p) then isn’t !all(p) equal to any(!p)?\nany(!a&gt;b | !b&lt;c)"
+  },
+  {
+    "objectID": "logical.html#nesting-ifelse",
+    "href": "logical.html#nesting-ifelse",
+    "title": "3  Logical vectors",
+    "section": "3.2 Nesting ifelse",
+    "text": "3.2 Nesting ifelse\n3.4. Choosing elements with ifelse"
+  },
+  {
+    "objectID": "logical.html#ifelse-to-generate-guassian-mixtures",
+    "href": "logical.html#ifelse-to-generate-guassian-mixtures",
+    "title": "3  Logical vectors",
+    "section": "3.3 ifelse to generate Guassian mixtures",
+    "text": "3.3 ifelse to generate Guassian mixtures\n\nwe generated a variate from the normal distribution that has the expected value of −2 with probability 20%, and from the one with the expectation of 3 otherwise. Thus inspired, generate the Gaussian mixtures:\n\n\n\\(\\frac{2}{3}X + \\frac{1}{3}Y\\), where \\(X ~ N(100, 16)\\) and \\(Y ~ N(116, 8)\\)\n\n\nn &lt;- 10000\n\nz &lt;- ifelse(runif(n) &lt;= (2/3), rnorm(n , 100, 16), rnorm(n, 116, 8))\n\nhist(z, breaks = 101, probability = TRUE, main = \"\", col = \"white\")\n\n\n\n\n\n\\(0.3X + 0.4Y + 0.3Z\\), where \\(X\\) ~ \\(N(-10, 2)\\), \\(Y\\) ~ \\(N(0,2)\\), and $Z $ ~ \\(N(10,2)\\)\n\n\nr &lt;- runif(n)\n\nd &lt;- ifelse(\n  r &lt;= 0.2,\n  rnorm(n, -10, 2),\n  ifelse(r &lt;= 0.7, rnorm(n, 0, 2), rnorm(n, 10, 2))\n)\n\nhist(d, breaks = 101, probability = TRUE, main = \"\", col = \"white\")"
   }
 ]
