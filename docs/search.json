@@ -168,6 +168,13 @@
     "text": "2.13 Pearson linear correlation\n\n\nLet x and y be two vectors of identical lengths \\(n\\), say: *\n\n\n\nx &lt;- rnorm(100)\ny &lt;- 2*x+10+rnorm(100, 0, 0.5)\n\n\nCompute the Pearson linear correlation coefficient given by:\n\n\n\\[\nr = \\frac{\\sum_{i=1}^n(x_i - \\frac{1}{n} \\sum_{j=1}^{n}x_j)(y_i - \\frac{1}{n}\\sum_{j=1}^n y_j)}\n{\\sqrt{\\sum_{i=1}^n(x_i - \\frac{1}{n} \\sum_{j=1}^n x_j)^2}\n\\sqrt{(y_i - \\frac{1}{n}\\sum_{j=1}^n y_j)^2}}\n\\]\n\nOk, calm down. Think in vectors. Think in vectors. Break it up. The four bracketed groups look to have the same structure, one in each half of the fraction for x, one for y. Set that out, then just apply sum(), sqrt() and ^2 as necessary. Fairly simple, after all.\n\npearson_coeff &lt;- function(x, y) {\n  n = length(x)\n  stopifnot(n == length(y))\n  \n  x_group &lt;- x - (1/n) * sum(x)\n  y_group &lt;- y - (1/n) * sum(y)\n  \n  sum(x_group * y_group) / (sqrt(sum(x_group^2)) * sqrt(sum(y_group^2)))\n}\n\npearson_coeff(x, y)\n\n[1] 0.9657844\n\n\n\nTo make sure you have come up with a correct implementation, compare your result to a call to ‘cor(x, y)’.\n\n\ncor(x, y)\n\n[1] 0.9657844\n\n\nSuccess!"
   },
   {
+    "objectID": "numeric.html#rolling-averages",
+    "href": "numeric.html#rolling-averages",
+    "title": "2  Numeric vectors",
+    "section": "2.14 Rolling averages",
+    "text": "2.14 Rolling averages\n\nFind an R package providing a function to compute moving (rolling) averages and medians of a given vector. Apply them on the EUR/AUD currency exchange data. Draw thus obtained smoothened versions of the time series.\n\nLooks like the package {zoo} has got it covered.\n\nlibrary(zoo)\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\neur_to_aud &lt;- scan(paste0(\"https://github.com/gagolews/teaching-data/raw/\",\n    \"master/marek/euraud-20200101-20200630.csv\"), comment.char=\"#\") \n\neur_to_aud &lt;- na.omit(eur_to_aud)\n  \nrolling_mean &lt;- zoo::rollmean(eur_to_aud, 9)\n\nplot(rolling_mean, ylab = \"[EUR/AUD] rolling mean\")\n\n\n\nrolling_median &lt;- zoo::rollmedian(eur_to_aud, 9)\n\nplot(rolling_median, ylab = \"[EUR/AUD] rolling median\")"
+  },
+  {
     "objectID": "numeric.html#footnotes",
     "href": "numeric.html#footnotes",
     "title": "2  Numeric vectors",

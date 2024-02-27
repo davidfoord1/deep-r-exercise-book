@@ -181,6 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#add-a-legend-to-your-plot" id="toc-add-a-legend-to-your-plot" class="nav-link" data-scroll-target="#add-a-legend-to-your-plot"><span class="header-section-number">2.11</span> Add a <code>legend()</code> to your <code>plot()</code></a></li>
   <li><a href="#vectorise-over-long-vectors" id="toc-vectorise-over-long-vectors" class="nav-link" data-scroll-target="#vectorise-over-long-vectors"><span class="header-section-number">2.12</span> Vectorise over long vectors</a></li>
   <li><a href="#pearson-linear-correlation" id="toc-pearson-linear-correlation" class="nav-link" data-scroll-target="#pearson-linear-correlation"><span class="header-section-number">2.13</span> Pearson linear correlation</a></li>
+  <li><a href="#rolling-averages" id="toc-rolling-averages" class="nav-link" data-scroll-target="#rolling-averages"><span class="header-section-number">2.14</span> Rolling averages</a></li>
   </ul>
 </nav>
     </div>
@@ -916,6 +917,42 @@ r = \frac{\sum_{i=1}^n(x_i - \frac{1}{n} \sum_{j=1}^{n}x_j)(y_i - \frac{1}{n}\su
 </div>
 </div>
 <p>Success!</p>
+</section>
+<section id="rolling-averages" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="rolling-averages"><span class="header-section-number">2.14</span> Rolling averages</h2>
+<blockquote class="blockquote">
+<p>Find an R package providing a function to compute moving (rolling) averages and medians of a given vector. Apply them on the EUR/AUD currency exchange data. Draw thus obtained smoothened versions of the time series.</p>
+</blockquote>
+<p>Looks like the package <code>{zoo}</code> has got it covered.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>eur_to_aud <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="fu">paste0</span>(<span class="st">"https://github.com/gagolews/teaching-data/raw/"</span>,</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"master/marek/euraud-20200101-20200630.csv"</span>), <span class="at">comment.char=</span><span class="st">"#"</span>) </span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>eur_to_aud <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(eur_to_aud)</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>rolling_mean <span class="ot">&lt;-</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(eur_to_aud, <span class="dv">9</span>)</span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rolling_mean, <span class="at">ylab =</span> <span class="st">"[EUR/AUD] rolling mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="numeric_files/figure-html/rolling-averages-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>rolling_median <span class="ot">&lt;-</span> zoo<span class="sc">::</span><span class="fu">rollmedian</span>(eur_to_aud, <span class="dv">9</span>)</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rolling_median, <span class="at">ylab =</span> <span class="st">"[EUR/AUD] rolling median"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="numeric_files/figure-html/rolling-averages-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

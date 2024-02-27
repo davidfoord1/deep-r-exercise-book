@@ -624,7 +624,7 @@ y <- 2*x+10+rnorm(100, 0, 0.5)
 
 Ok, calm down. Think in vectors. Think in vectors. Break it up. The four bracketed groups look to have the same structure, one in each half of the fraction for x, one for y. Set that out, then just apply `sum()`, `sqrt()` and `^2` as necessary. Fairly simple, after all.
 
-```{r Perason}
+```{r Pearson}
 pearson_coeff <- function(x, y) {
   n = length(x)
   stopifnot(n == length(y))
@@ -641,8 +641,33 @@ pearson_coeff(x, y)
 
 > To make sure you have come up with a correct implementation, compare your result to a call to 'cor(x, y)'.
 
-```{r}
+```{r cor}
 cor(x, y)
 ```
 
-Success!
+Success! 
+
+## Rolling averages
+
+> Find an R package providing a function to compute moving (rolling) averages and medians of a given vector. Apply them on the EUR/AUD currency exchange data. Draw thus obtained smoothened versions of the time series.
+
+Looks like the package `{zoo}` has got it covered.
+
+```{r rolling-averages}
+library(zoo)
+
+eur_to_aud <- scan(paste0("https://github.com/gagolews/teaching-data/raw/",
+    "master/marek/euraud-20200101-20200630.csv"), comment.char="#") 
+
+eur_to_aud <- na.omit(eur_to_aud)
+  
+rolling_mean <- zoo::rollmean(eur_to_aud, 9)
+
+plot(rolling_mean, ylab = "[EUR/AUD] rolling mean")
+
+rolling_median <- zoo::rollmedian(eur_to_aud, 9)
+
+plot(rolling_median, ylab = "[EUR/AUD] rolling median")
+```
+
+
