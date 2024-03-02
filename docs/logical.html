@@ -169,7 +169,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#simplifying-predicates" id="toc-simplifying-predicates" class="nav-link active" data-scroll-target="#simplifying-predicates"><span class="header-section-number">3.1</span> Simplifying predicates</a></li>
   <li><a href="#nesting-ifelse" id="toc-nesting-ifelse" class="nav-link" data-scroll-target="#nesting-ifelse"><span class="header-section-number">3.2</span> Nesting ifelse</a></li>
-  <li><a href="#ifelse-to-generate-guassian-mixtures" id="toc-ifelse-to-generate-guassian-mixtures" class="nav-link" data-scroll-target="#ifelse-to-generate-guassian-mixtures"><span class="header-section-number">3.3</span> ifelse to generate Guassian mixtures</a></li>
+  <li><a href="#ifelse-to-generate-guassian-mixtures" id="toc-ifelse-to-generate-guassian-mixtures" class="nav-link" data-scroll-target="#ifelse-to-generate-guassian-mixtures"><span class="header-section-number">3.3</span> <code>ifelse()</code> to generate Guassian mixtures</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.4</span> Exercises</a></li>
+  <li><a href="#equality-functions" id="toc-equality-functions" class="nav-link" data-scroll-target="#equality-functions"><span class="header-section-number">3.5</span> Equality functions</a></li>
   </ul>
 </nav>
     </div>
@@ -237,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://deepr.gagolewski.com/chapter/130-logical.html#choosing-elements-with-ifelse">3.4. Choosing elements with ifelse</a></p>
 </section>
 <section id="ifelse-to-generate-guassian-mixtures" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="ifelse-to-generate-guassian-mixtures"><span class="header-section-number">3.3</span> ifelse to generate Guassian mixtures</h2>
+<h2 data-number="3.3" class="anchored" data-anchor-id="ifelse-to-generate-guassian-mixtures"><span class="header-section-number">3.3</span> <code>ifelse()</code> to generate Guassian mixtures</h2>
 <blockquote class="blockquote">
 <p>we generated a variate from the normal distribution that has the expected value of −2 with probability 20%, and from the one with the expectation of 3 otherwise. Thus inspired, generate the Gaussian mixtures:</p>
 </blockquote>
@@ -269,6 +271,103 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(d, <span class="at">breaks =</span> <span class="dv">101</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="logical_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.4</span> Exercises</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/130-logical.html#exercises">3.5. Exercises</a></p>
+<blockquote class="blockquote">
+<p><em>Answer the following questions.</em></p>
+<p><em>Why the statement “The Earth is flat or the smallpox vaccine is proven effective” is obviously true?</em></p>
+</blockquote>
+<p>Because at least one of those two statements is true, which is all you need with an OR.</p>
+<blockquote class="blockquote">
+<p><em>What is the difference between <code>NA</code> and <code>NA_real_</code>?</em></p>
+</blockquote>
+<p><code>NA</code> is of type logical wheras <code>NA_real_</code> is of type numeric, i.e.&nbsp;they indicate a missing value within those respective vector types.</p>
+<blockquote class="blockquote">
+<p><em>Why is “FALSE &amp; NA” equal to FALSE, but “TRUE &amp; NA” is NA?</em></p>
+</blockquote>
+<p>As long as one side of an &amp; is FALSE, the expression will evaluate to FALSE. With “TRUE &amp; NA” the expression could evaluate to either TRUE or FALSE depending on what the NA value is.</p>
+<blockquote class="blockquote">
+<p><em>Why has ifelse(x&gt;=0, sqrt(x), NA_real_) a tendency to generate warnings and how to rewrite it so as to prevent that from happening?</em></p>
+</blockquote>
+<blockquote class="blockquote">
+<p><em>What is the interpretation of <code>mean(x &gt;= 0 &amp; x &lt;= 1)</code>?</em></p>
+</blockquote>
+<p>This calculates the proportion of vector x which lies between 0 and 1. <code>mean</code> coerces the <code>logical</code> result of the expression to <code>numeric</code> i.e.&nbsp;<code>TRUE</code> to 1 and <code>FALSE</code> to 0.</p>
+<blockquote class="blockquote">
+<p><em>For some integer x and y, how to verify whether 0&lt;x&lt;100, 0&lt;y&lt;100, and x&lt;y, all at the same time?</em></p>
+</blockquote>
+<p><code>0&lt;x &amp; x&lt;y &amp; y&lt;100</code></p>
+<blockquote class="blockquote">
+<p><em>Mathematically, for all real</em> <span class="math inline">\(x,y&gt;0\)</span><em>, we have</em> <span class="math inline">\(logxy=logx+logy\)</span><em>. Why then <code>all(log(x*y) == log(x)+log(y))</code> can sometimes return <code>FALSE</code>? How to fix this?</em></p>
+</blockquote>
+<p>Differences can occur in the results due to over or under accuracy in calculations using the double-precision floating point system.</p>
+<blockquote class="blockquote">
+<p><em>Is x/y/z always equal to x/(y/z)? How to fix this?</em></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 / 0.1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.1</span> <span class="sc">/</span> <span class="fl">0.1</span> <span class="sc">/</span> <span class="fl">0.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.1 / 1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.1</span> <span class="sc">/</span> (<span class="fl">0.1</span> <span class="sc">/</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1</code></pre>
+</div>
+</div>
+<p>Clearly not as a result of order of operations. I’m not sure what is meant by fixing this.</p>
+<blockquote class="blockquote">
+<p><em>What is the purpose of very specific functions such as log1p and expm1 (see their help page) and many others listed in, e.g., the GNU GSL library [28]? Is our referring to them a violation of the beloved “do not multiply entities without necessity” rule?</em></p>
+</blockquote>
+<blockquote class="blockquote">
+<p><em>If we know that x may be subject to error, how to test whether x&gt;0 in a robust manner?</em></p>
+</blockquote>
+<p>We can for instance use <code>abs(x - 0) &lt; e-8</code> to check for within an assumed error margin or more simply round <code>round(x) &gt; 0)</code>.</p>
+<blockquote class="blockquote">
+<p><em>Is “y&lt;-5” the same as “y &lt;- 5” or rather “y &lt; -5”?</em></p>
+</blockquote>
+<p>It’s the same as the former, evaluated as assignment rather than less than negative 5.</p>
+</section>
+<section id="equality-functions" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="equality-functions"><span class="header-section-number">3.5</span> Equality functions</h2>
+<blockquote class="blockquote">
+<p><em>What is the difference between <code>all</code> and <code>isTRUE</code>? What about <code>==</code>, <code>identical</code>, and <code>all.equal</code>? Is the last one properly vectorised?</em></p>
+</blockquote>
+<p><code>all</code> checks if every element of a vector is TRUE, including coercion to TRUE, and <code>isTRUE</code> checks if the value passed to it is equal to the value <code>TRUE</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Are all values TRUE?</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is it a TRUE value?</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p><code>==</code> checks for equality between each respective element of two vectors, return a result for each pair. <code>identical</code> checks if two objects are exactly equal, a single result for whether the entire thing is the same. <code>all.equal()</code> is similar to identical, but instead tests for near equality.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>) <span class="sc">==</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE TRUE TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">2.1</span>, <span class="fl">3.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">2.1</span>, <span class="fl">3.1</span>), <span class="at">tolerance =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 
