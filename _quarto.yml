@@ -5,19 +5,19 @@ project:
 book:
   title: "Deep R Programming Exercise Book"
   author: "David Foord"
-  date: ""
   chapters:
     - index.qmd
     - intro.qmd
     - numeric.qmd
     - logical.qmd
-  
+  navbar:
+    background: navy
+    foreground: white
 
 bibliography: references.bib
 
 format:
   html:
-    theme: cosmo
-
+    theme: flatly
 
 
