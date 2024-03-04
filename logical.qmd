@@ -114,9 +114,12 @@ Differences can occur in the results due to over or under accuracy in calculatio
 # 0.1 / 1
 0.1 / (0.1 / 0.1)
 ```
+
 Clearly not as a result of order of operations. I'm not sure what is meant by fixing this.
 
-> *What is the purpose of very specific functions such as log1p and expm1 (see their help page) and many others listed in, e.g., the GNU GSL library \[28\]? Is our referring to them a violation of the beloved "do not multiply entities without necessity" rule?*
+> *What is the purpose of very specific functions such as log1p and expm1 (see their help page) and many others listed in, e.g., the GNU GSL library? Is our referring to them a violation of the beloved "do not multiply entities without necessity" rule?*
+
+Hmm. Well it covers a large number of common mathematical operations. In a certain sense it does some to conflict with the idea of being independent in the R environment. On the other hand it makes a lot of sense to me to rely on more libraries which are, presumably, thoroughly tested and more robust then trying to replicate all these maths functions. Using them makes it easy to write simpler vectorised R code and I'm sure it's more efficient having the iteration at the C/C++ level than the R level.
 
 > *If we know that x may be subject to error, how to test whether x\>0 in a robust manner?*
 
@@ -127,6 +130,7 @@ We can for instance use `abs(x - 0) < e-8` to check for within an assumed error 
 It's the same as the former, evaluated as assignment rather than less than negative 5.
 
 ## Equality functions
+
 > *What is the difference between `all` and `isTRUE`? What about `==`, `identical`, and `all.equal`? Is the last one properly vectorised?*
 
 `all` checks if every element of a vector is TRUE, including coercion to TRUE, and `isTRUE` checks if the value passed to it is equal to the value `TRUE`.
@@ -149,3 +153,64 @@ identical(c(1, 2, 3), c(1.1, 2.1, 3.1))
 all.equal(c(1, 2, 3), c(1.1, 2.1, 3.1), tolerance = 0.1)
 
 ```
+
+## Entropy loss
+
+> *Compute the cross-entropy loss between a numeric vector p with values in the interval (0,1) and a logical vector y, both of length n (you can generate them randomly or manually, it does not matter, it is just an exercise):*
+
+> $L(p, y) = \frac{1}{n} \sum_{i=1}^{n}l_i$
+
+> *where*
+>
+$$
+  \begin{equation}
+  l_i = \begin{cases}
+          - log (p_i) & \text{ if } y_i \text{ is TRUE} \\
+          - log (1 - p_i) & \text{ if } y_i \text{ is FALSE}
+        \end{cases}
+\end{equation}
+$$
+
+
+```{r entropy_less}
+cross_entropy_loss <- function(p, y) {
+  stopifnot(is.numeric(p))
+  stopifnot(is.logical(y))
+  
+  n <- length(p)
+  
+  stopifnot(n == length(y))
+  
+  (1 / n) * sum(ifelse(y, -log(p), -log(1-p)))
+}
+```
+
+> *Interpretation: in classification problems, $y_i ∈{FALSE,TRUE}$ denotes the true class of the i-th object (say, whether the i-th hospital patient is symptomatic) and $p_i ∈(0,1)$ is a machine learning algorithm’s confidence that i belongs to class TRUE (e.g., how sure a decision tree model is that the corresponding person is unwell). Ideally, if $y_i$ is TRUE,  $p_i$ should be close to 1 and to 0 otherwise. The cross-entropy loss quantifies by how much a classifier differs from the omniscient one. The use of the logarithm penalises strong beliefs in the wrong answer.*
+
+Interesting, so there should be no loss here:
+```{r no_loss}
+p <- c(rep(0, 50), rep(1, 50))
+y <- c(rep(FALSE, 50), rep(TRUE, 50))
+
+cross_entropy_loss(p, y)
+```
+
+There should be some loss here, were particularly the middle of the vector will be "unsure" with $p_i$ being far from the expected integer for the corresponding $y_i$:
+
+```{r some_loss}
+p <- seq(0, 1, length.out = 100)
+y <- as.logical(round(p))
+
+cross_entropy_loss(p, y)
+```
+
+And something completely off:
+```{r all_loss}
+p <- 1
+y <- FALSE
+
+cross_entropy_loss(p, y)
+```
+
+We did it! Marek advises to make sure the exercises have been tackled with `ifelse()` and base R vectorised operations, as opposed to `if` and using indexing to work on individual elements of vectors. So far so good, and I like it, it really does make things simple but effective. 🫡👍
+

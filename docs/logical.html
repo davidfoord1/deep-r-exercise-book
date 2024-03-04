@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./lists_attributes.html" rel="next">
 <link href="./numeric.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -164,6 +165,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Logical vectors</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lists_attributes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Lists and attributes</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -179,6 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ifelse-to-generate-guassian-mixtures" id="toc-ifelse-to-generate-guassian-mixtures" class="nav-link" data-scroll-target="#ifelse-to-generate-guassian-mixtures"><span class="header-section-number">3.3</span> <code>ifelse()</code> to generate Guassian mixtures</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.4</span> Exercises</a></li>
   <li><a href="#equality-functions" id="toc-equality-functions" class="nav-link" data-scroll-target="#equality-functions"><span class="header-section-number">3.5</span> Equality functions</a></li>
+  <li><a href="#entropy-loss" id="toc-entropy-loss" class="nav-link" data-scroll-target="#entropy-loss"><span class="header-section-number">3.6</span> Entropy loss</a></li>
   </ul>
 </nav>
     </div>
@@ -329,8 +337,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Clearly not as a result of order of operations. I’m not sure what is meant by fixing this.</p>
 <blockquote class="blockquote">
-<p><em>What is the purpose of very specific functions such as log1p and expm1 (see their help page) and many others listed in, e.g., the GNU GSL library [28]? Is our referring to them a violation of the beloved “do not multiply entities without necessity” rule?</em></p>
+<p><em>What is the purpose of very specific functions such as log1p and expm1 (see their help page) and many others listed in, e.g., the GNU GSL library? Is our referring to them a violation of the beloved “do not multiply entities without necessity” rule?</em></p>
 </blockquote>
+<p>Hmm. Well it covers a large number of common mathematical operations. In a certain sense it does some to conflict with the idea of being independent in the R environment. On the other hand it makes a lot of sense to me to rely on more libraries which are, presumably, thoroughly tested and more robust then trying to replicate all these maths functions. Using them makes it easy to write simpler vectorised R code and I’m sure it’s more efficient having the iteration at the C/C++ level than the R level.</p>
 <blockquote class="blockquote">
 <p><em>If we know that x may be subject to error, how to test whether x&gt;0 in a robust manner?</em></p>
 </blockquote>
@@ -377,6 +386,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
+</section>
+<section id="entropy-loss" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="entropy-loss"><span class="header-section-number">3.6</span> Entropy loss</h2>
+<blockquote class="blockquote">
+<p><em>Compute the cross-entropy loss between a numeric vector p with values in the interval (0,1) and a logical vector y, both of length n (you can generate them randomly or manually, it does not matter, it is just an exercise):</em></p>
+</blockquote>
+<blockquote class="blockquote">
+<p><span class="math inline">\(L(p, y) = \frac{1}{n} \sum_{i=1}^{n}l_i\)</span></p>
+</blockquote>
+<blockquote class="blockquote">
+<p><em>where</em></p>
+<p><span class="math display">\[
+\begin{equation}
+l_i = \begin{cases}
+- log (p_i) &amp; \text{ if } y_i \text{ is TRUE} \\
+- log (1 - p_i) &amp; \text{ if } y_i \text{ is FALSE}
+\end{cases}
+\end{equation}
+\]</span></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cross_entropy_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(p, y) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.numeric</span>(p))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.logical</span>(y))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(p)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(n <span class="sc">==</span> <span class="fu">length</span>(y))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">/</span> n) <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">ifelse</span>(y, <span class="sc">-</span><span class="fu">log</span>(p), <span class="sc">-</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p)))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><em>Interpretation: in classification problems, <span class="math inline">\(y_i ∈{FALSE,TRUE}\)</span> denotes the true class of the i-th object (say, whether the i-th hospital patient is symptomatic) and <span class="math inline">\(p_i ∈(0,1)\)</span> is a machine learning algorithm’s confidence that i belongs to class TRUE (e.g., how sure a decision tree model is that the corresponding person is unwell). Ideally, if <span class="math inline">\(y_i\)</span> is TRUE, <span class="math inline">\(p_i\)</span> should be close to 1 and to 0 otherwise. The cross-entropy loss quantifies by how much a classifier differs from the omniscient one. The use of the logarithm penalises strong beliefs in the wrong answer.</em></p>
+</blockquote>
+<p>Interesting, so there should be no loss here:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="dv">50</span>), <span class="fu">rep</span>(<span class="cn">TRUE</span>, <span class="dv">50</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cross_entropy_loss</span>(p, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>There should be some loss here, were particularly the middle of the vector will be “unsure” with <span class="math inline">\(p_i\)</span> being far from the expected integer for the corresponding <span class="math inline">\(y_i\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(<span class="fu">round</span>(p))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cross_entropy_loss</span>(p, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3037506</code></pre>
+</div>
+</div>
+<p>And something completely off:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cross_entropy_loss</span>(p, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Inf</code></pre>
+</div>
+</div>
+<p>We did it! Marek advises to make sure the exercises have been tackled with <code>ifelse()</code> and base R vectorised operations, as opposed to <code>if</code> and using indexing to work on individual elements of vectors. So far so good, and I like it, it really does make things simple but effective. 🫡👍</p>
 
 
 </section>
@@ -622,6 +697,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./lists_attributes.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Lists and attributes</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -1,0 +1,120 @@
+# Lists and attributes
+
+## Cross-entropy loss take two
+
+> *In one of the previous exercises, we computed the cross-entropy loss between a logical vector* $y∈{0,1}^n$ *and a numeric vector* $p ∈ (0,1)^n$*. This measure can be equivalently defined as:*
+>
+> $L(p, y) = - \frac{1}{n} \left( \sum_{i=1}^{n} y_i log(p_i) + (1 - y_i) log(1-p_i) \right)$
+>
+> *Using vectorised operations, but not relying on **ifelse** this time, implement this formula*
+
+```{r entropy-loss-2}
+cross_entropy_loss_2 <- function(p, y) {
+  stopifnot(is.numeric(p))
+  stopifnot(is.logical(y))
+  
+  n <- length(p)
+  
+  stopifnot(n == length(y))
+  
+  - (1/n) * sum( y * log(p) + (1 - y) * log(1 - p))
+}
+```
+
+> *Then, compute the cross-entropy loss between, for instance, "`y <- sample(c(FALSE, TRUE), n)`" and "`p <- runif(n)`" for some n.*
+
+```{r}
+n <- 100
+y <- sample(c(FALSE, TRUE), n, replace = TRUE)
+p <- runif(n)
+
+cross_entropy_loss_2(p, y)
+```
+
+> *Note how seamlessly we translate between FALSE/TRUEs and 0/1s in the above equation (in particular, where* $1 - y_i$ means the logical negation of $y$).
+
+## First attributes
+
+> *Create a list with EUR/AUD, EUR/GBP, and EUR/USD exchange rates read from the euraud-\*.csv, eurgbp-\*.csv, and eurusd-\*.csv files in our data repository. Each of its three elements should be a numeric vector storing the currency exchange rates. Furthermore, equip them with currency_from, currency_to, date_from, and date_to attributes. For example:*
+
+```{r}
+
+currency_to <- c("AUD", "GBP", "USD")
+
+str(lapply(currency_to,
+  function(currency_to) {
+    data <-
+      scan(
+        paste0(
+          "https://github.com/gagolews/teaching-data/raw/",
+          "master/marek/eur",
+          tolower(currency_to),
+          "-20200101-20200630.csv"
+        ),
+        comment.char = "#"
+      )
+    structure(
+      data,
+      currency_from = "EUR",
+      currency_to = currency_to,
+      date_from = "2020-01-01",
+      date_to = "2020-06-30"
+   )
+}))
+```
+
+## Comment
+
+> *comment is perhaps the most rarely used special attribute. Create an object (whatever) equipped with the comment attribute. Verify that assigning to it anything other than a character vector leads to an error. Read its value by calling the comment function. Display the object equipped with this attribute. Note that the print function ignores its existence whatsoever: this is how special it is.*
+
+```{r set-comment}
+my_numbers <- c(1, 2, 3)
+
+comment(my_numbers) <- "a curious attribute"
+```
+
+```{r comment-error}
+#| error: true
+# Can't do this
+comment(my_numbers) <- TRUE
+```
+
+```{r get-comment}
+comment(my_numbers)
+```
+
+## Functions which return named vectors
+
+> *A whole lot of functions return named vectors. Evaluate the following expressions and read the corresponding pages in their documentation:*
+
+> -   *quantile(runif(100)),*
+
+```{r quantile}
+quantile(runif(100))
+```
+
+Named with the proportion at each quantile, neat.
+
+> -   *hist(runif(100), plot=FALSE),*
+
+```{r hist}
+hist(runif(100), plot=FALSE)
+```
+
+Yes, a name for the different features of the plot. Breaks for the bins, counts for the frequency, you've got density and then one I wasn't particularly expecting, mids for the middle of the breaks. A little bit of non-standard evaluation to store the x input as a name and then a settingn for using equal distances.
+
+> -   *options() (take note of digits, scipen, max.print, and width),*
+
+```{r options}
+options()[names(options()) %in% c("digits", "scipen", "max.print", "width")]
+```
+
+Yeah I've used scipen before to see a full integer instead of the scientific 1.1e6 style version.
+
+> -   *capabilities().*
+
+```{r capabilities}
+capabilities()
+```
+
+Ok, info on whether my R build has certain functionality.

@@ -10,6 +10,7 @@ book:
     - intro.qmd
     - numeric.qmd
     - logical.qmd
+    - lists_attributes.qmd
   navbar:
     background: navy
     foreground: white
