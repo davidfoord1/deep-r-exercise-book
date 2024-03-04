@@ -183,7 +183,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cross-entropy-loss-take-two" id="toc-cross-entropy-loss-take-two" class="nav-link active" data-scroll-target="#cross-entropy-loss-take-two"><span class="header-section-number">4.1</span> Cross-entropy loss take two</a></li>
   <li><a href="#first-attributes" id="toc-first-attributes" class="nav-link" data-scroll-target="#first-attributes"><span class="header-section-number">4.2</span> First attributes</a></li>
   <li><a href="#comment" id="toc-comment" class="nav-link" data-scroll-target="#comment"><span class="header-section-number">4.3</span> Comment</a></li>
-  <li><a href="#functions-which-return-named-vectors" id="toc-functions-which-return-named-vectors" class="nav-link" data-scroll-target="#functions-which-return-named-vectors"><span class="header-section-number">4.4</span> Functions which return named vectors</a></li>
+  <li><a href="#label-elements-with-names" id="toc-label-elements-with-names" class="nav-link" data-scroll-target="#label-elements-with-names"><span class="header-section-number">4.4</span> Label elements with <code>names()</code></a></li>
+  <li><a href="#functions-which-return-named-vectors" id="toc-functions-which-return-named-vectors" class="nav-link" data-scroll-target="#functions-which-return-named-vectors"><span class="header-section-number">4.5</span> Functions which return named vectors</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.6</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -209,6 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="cross-entropy-loss-take-two" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="cross-entropy-loss-take-two"><span class="header-section-number">4.1</span> Cross-entropy loss take two</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/140-list.html#implicit-conversion-coercion">4.1.2. Implicit conversion (coercion)</a></p>
 <blockquote class="blockquote">
 <p><em>In one of the previous exercises, we computed the cross-entropy loss between a logical vector</em> <span class="math inline">\(y∈{0,1}^n\)</span> <em>and a numeric vector</em> <span class="math inline">\(p ∈ (0,1)^n\)</span><em>. This measure can be equivalently defined as:</em></p>
 <p><span class="math inline">\(L(p, y) = - \frac{1}{n} \left( \sum_{i=1}^{n} y_i log(p_i) + (1 - y_i) log(1-p_i) \right)\)</span></p>
@@ -236,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cross_entropy_loss_2</span>(p, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.083705</code></pre>
+<pre><code>[1] 0.9256621</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -245,6 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="first-attributes" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="first-attributes"><span class="header-section-number">4.2</span> First attributes</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/140-list.html#but-there-are-a-few-use-cases">4.4.2. But there are a few use cases</a></p>
 <blockquote class="blockquote">
 <p><em>Create a list with EUR/AUD, EUR/GBP, and EUR/USD exchange rates read from the euraud-*.csv, eurgbp-*.csv, and eurusd-*.csv files in our data repository. Each of its three elements should be a numeric vector storing the currency exchange rates. Furthermore, equip them with currency_from, currency_to, date_from, and date_to attributes. For example:</em></p>
 </blockquote>
@@ -293,6 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="comment" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="comment"><span class="header-section-number">4.3</span> Comment</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/140-list.html#special-attributes">4.4.3. Special attributes</a></p>
 <blockquote class="blockquote">
 <p><em>comment is perhaps the most rarely used special attribute. Create an object (whatever) equipped with the comment attribute. Verify that assigning to it anything other than a character vector leads to an error. Read its value by calling the comment function. Display the object equipped with this attribute. Note that the print function ignores its existence whatsoever: this is how special it is.</em></p>
 </blockquote>
@@ -315,8 +320,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="functions-which-return-named-vectors" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="functions-which-return-named-vectors"><span class="header-section-number">4.4</span> Functions which return named vectors</h2>
+<section id="label-elements-with-names" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="label-elements-with-names"><span class="header-section-number">4.4</span> Label elements with <code>names()</code></h2>
+<p><a href="https://deepr.gagolewski.com/chapter/140-list.html#special-attributes">4.4.4. Labelling vector elements with the names attribute</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">2</span>, <span class="dv">6</span>), <span class="at">names=</span><span class="fu">c</span>(<span class="st">"spam"</span>, <span class="st">"sausage"</span>, <span class="st">"celery"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   spam sausage  celery 
+     13       2       6 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><em>Verify that the above x is still an ordinary numeric vector by calling typeof and sum on it.</em></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21</code></pre>
+</div>
+</div>
+<p>👍</p>
+</section>
+<section id="functions-which-return-named-vectors" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="functions-which-return-named-vectors"><span class="header-section-number">4.5</span> Functions which return named vectors</h2>
 <blockquote class="blockquote">
 <p><em>A whole lot of functions return named vectors. Evaluate the following expressions and read the corresponding pages in their documentation:</em></p>
 </blockquote>
@@ -326,10 +356,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">runif</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">runif</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>        0%        25%        50%        75%       100% 
-0.01023927 0.24883099 0.51386585 0.76538435 0.98424252 </code></pre>
+<pre><code>         0%         25%         50%         75%        100% 
+0.002999586 0.227113775 0.422457957 0.697311777 0.993522633 </code></pre>
 </div>
 </div>
 <p>Named with the proportion at each quantile, neat.</p>
@@ -339,16 +369,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">runif</span>(<span class="dv">100</span>), <span class="at">plot=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">runif</span>(<span class="dv">100</span>), <span class="at">plot=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$breaks
  [1] 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
 
 $counts
- [1] 12  8  7 10 12  4 15 10 10 12
+ [1] 13 11 14  6  8 16  9  6  7 10
 
 $density
- [1] 1.2 0.8 0.7 1.0 1.2 0.4 1.5 1.0 1.0 1.2
+ [1] 1.3 1.1 1.4 0.6 0.8 1.6 0.9 0.6 0.7 1.0
 
 $mids
  [1] 0.05 0.15 0.25 0.35 0.45 0.55 0.65 0.75 0.85 0.95
@@ -370,7 +400,7 @@ attr(,"class")
 </ul>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>()[<span class="fu">names</span>(<span class="fu">options</span>()) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"digits"</span>, <span class="st">"scipen"</span>, <span class="st">"max.print"</span>, <span class="st">"width"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>()[<span class="fu">names</span>(<span class="fu">options</span>()) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"digits"</span>, <span class="st">"scipen"</span>, <span class="st">"max.print"</span>, <span class="st">"width"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$digits
 [1] 7
@@ -392,7 +422,7 @@ $width
 </ul>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">capabilities</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">capabilities</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       jpeg         png        tiff       tcltk         X11        aqua 
        TRUE        TRUE        TRUE        TRUE       FALSE       FALSE 
@@ -405,6 +435,105 @@ $width
 </div>
 </div>
 <p>Ok, info on whether my R build has certain functionality.</p>
+</section>
+<section id="exercises" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.6</span> Exercises</h2>
+<p><a href="https://deepr.gagolewski.com/chapter/140-list.html#exercises">4.5. Exercises</a></p>
+<blockquote class="blockquote">
+<p><em>Provide an answer to the following questions.</em></p>
+<p><em>What is the meaning of c(TRUE, FALSE)</em>1:10?*</p>
+</blockquote>
+<p>The same as c(1, 0) * 1:10, for each number from 1 to 10, display the odd numbers (multiply them by 1) and show 0 (multiply by 0) for all the even numbers.</p>
+<blockquote class="blockquote">
+<p><em>What does sum(as.logical(x)) compute when x is a numeric vector?</em></p>
+</blockquote>
+<p>I think this is the number of non-zero values. Non-zero values are converted to TRUE by <code>as.logical()</code> then to 1 by <code>sum</code> coercing to numeric.</p>
+<blockquote class="blockquote">
+<p><em>We said that atomic vectors of the type character are the most general ones. Therefore, is <code>as.numeric(as.character(x))</code> the same as <code>as.numeric(x)</code>, regardless of the type of x?</em></p>
+</blockquote>
+<p>Definitely not, for instance a logical value converted to string first will be treated as any other string that doesn’t just contain numbers by <code>as.numeric()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><em>What is the meaning of <code>as.logical(x+y)</code> if x and y are logical vectors? What about <code>as.logical(x\*y)</code>, <code>as.logical(1-x)</code>, and <code>as.logical(x!=y)</code>?</em></p>
+</blockquote>
+<p>Huh, does the x+y one function like an OR statement? First the <code>+</code> operator converts both values to numeric, then any numeric value greater than 0 gets turned to <code>TRUE</code> by <code>as.logical()</code>, so as long as at least one of x or y is <code>TRUE</code>, the result will be too.</p>
+<p>x*y would then be like an AND statement, because if even one is <code>FALSE</code>, you multiply by zero to get zero, which gets converted to <code>FALSE</code>.</p>
+<p>We know from the cross-entropy loss example that wecan use 1 - x to give us the negation of a logical value e.g.&nbsp;<code>TRUE</code> becomes <code>FALSE</code>, like <code>!x</code>.</p>
+<p>For the last one I think the <code>as.logical()</code> call is doing nothing because the result is already logical.</p>
+<blockquote class="blockquote">
+<p><em>What is the meaning of the following when x is a logical vector?</em> - <em>cummin(x) and cummin(!x),</em></p>
+</blockquote>
+<p>Whether all values have been <code>TRUE</code> up to that point, and the same for <code>FALSE</code>.</p>
+<blockquote class="blockquote">
+<ul>
+<li><em>cummax(x) and cummax(!x),</em></li>
+</ul>
+</blockquote>
+<p>Whether any values have been <code>TRUE</code> up to that point, and then the same for <code>FALSE</code>.</p>
+<blockquote class="blockquote">
+<ul>
+<li><em>cumsum(x) and cumsum(!x),</em></li>
+</ul>
+</blockquote>
+<p>The number of <code>TRUE</code> values and the number of <code>FALSE</code> values up to that point.</p>
+<blockquote class="blockquote">
+<ul>
+<li><em>cumprod(x) and cumprod(!x).</em></li>
+</ul>
+</blockquote>
+<p>Whether all values have been <code>TRUE</code> up to that point, and the same for <code>FALSE</code>.</p>
+<blockquote class="blockquote">
+<p><em>Let x be a named numeric vector, e.g., “x &lt;- quantile(runif(100))”. What is the result of 2*x, mean(x), and round(x, 2)?</em></p>
+</blockquote>
+<p>Double every element of the vector. Take the sum of all values in the vector and divide it by the length of the vector. Round every value in the vector to 2 decimal places.</p>
+<blockquote class="blockquote">
+<p><em>What is the meaning of x == NULL?</em></p>
+</blockquote>
+<p>Uhh, I’m not exactly sure what that means, it’s trying to test each element of <code>x</code> for cotaining the value <code>NULL</code>, but I don’t think that works because of how <code>NULL</code>s are handled as zero-length vectors. I know that to test for <code>NULL</code> you need to use <code>is.null()</code>.</p>
+<blockquote class="blockquote">
+<p><em>Give two ways to create a named character vector.</em></p>
+</blockquote>
+<p>Name the elements when creating the vector or uses the <code>names&lt;-</code> replacement function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">this =</span> <span class="st">"that"</span>, <span class="at">that =</span> <span class="st">"this"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  this   that 
+"that" "this" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"John"</span>, <span class="st">"Smith"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_vec) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"first_name"</span>, <span class="st">"last_name"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>my_vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>first_name  last_name 
+    "John"    "Smith" </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><em>Give two ways (discussed above; there are more) to remove the names attribute from an object.</em></p>
+</blockquote>
+<p>Use <code>unname()</code> or set the attribute to <code>NULL</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_vec) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>my_vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "John"  "Smith"</code></pre>
+</div>
+</div>
 
 
 </section>

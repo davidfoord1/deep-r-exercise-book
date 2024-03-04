@@ -2,6 +2,8 @@
 
 ## Cross-entropy loss take two
 
+[4.1.2. Implicit conversion (coercion)](https://deepr.gagolewski.com/chapter/140-list.html#implicit-conversion-coercion)
+
 > *In one of the previous exercises, we computed the cross-entropy loss between a logical vector* $y∈{0,1}^n$ *and a numeric vector* $p ∈ (0,1)^n$*. This measure can be equivalently defined as:*
 >
 > $L(p, y) = - \frac{1}{n} \left( \sum_{i=1}^{n} y_i log(p_i) + (1 - y_i) log(1-p_i) \right)$
@@ -35,6 +37,8 @@ cross_entropy_loss_2(p, y)
 
 ## First attributes
 
+[4.4.2. But there are a few use cases](https://deepr.gagolewski.com/chapter/140-list.html#but-there-are-a-few-use-cases)
+
 > *Create a list with EUR/AUD, EUR/GBP, and EUR/USD exchange rates read from the euraud-\*.csv, eurgbp-\*.csv, and eurusd-\*.csv files in our data repository. Each of its three elements should be a numeric vector storing the currency exchange rates. Furthermore, equip them with currency_from, currency_to, date_from, and date_to attributes. For example:*
 
 ```{r}
@@ -65,6 +69,8 @@ str(lapply(currency_to,
 
 ## Comment
 
+[4.4.3. Special attributes](https://deepr.gagolewski.com/chapter/140-list.html#special-attributes)
+
 > *comment is perhaps the most rarely used special attribute. Create an object (whatever) equipped with the comment attribute. Verify that assigning to it anything other than a character vector leads to an error. Read its value by calling the comment function. Display the object equipped with this attribute. Note that the print function ignores its existence whatsoever: this is how special it is.*
 
 ```{r set-comment}
@@ -82,6 +88,23 @@ comment(my_numbers) <- TRUE
 ```{r get-comment}
 comment(my_numbers)
 ```
+
+## Label elements with `names()`
+
+[4.4.4. Labelling vector elements with the names attribute](https://deepr.gagolewski.com/chapter/140-list.html#special-attributes)
+
+```{r}
+(x <- structure(c(13, 2, 6), names=c("spam", "sausage", "celery")))
+```
+
+> *Verify that the above x is still an ordinary numeric vector by calling typeof and sum on it.*
+
+```{r unchanged-by-names}
+typeof(x)
+sum(x)
+```
+
+👍
 
 ## Functions which return named vectors
 
@@ -118,3 +141,86 @@ capabilities()
 ```
 
 Ok, info on whether my R build has certain functionality.
+
+## Exercises
+
+[4.5. Exercises](https://deepr.gagolewski.com/chapter/140-list.html#exercises)
+
+> *Provide an answer to the following questions.*
+>
+> *What is the meaning of c(TRUE, FALSE)*1:10?*
+
+The same as c(1, 0) * 1:10, for each number from 1 to 10, display the odd numbers (multiply them by 1) and show 0 (multiply by 0) for all the even numbers.
+
+> *What does sum(as.logical(x)) compute when x is a numeric vector?*
+
+I think this is the number of non-zero values. Non-zero values are converted to TRUE by `as.logical()` then to 1 by `sum` coercing to numeric.
+
+> *We said that atomic vectors of the type character are the most general ones. Therefore, is `as.numeric(as.character(x))` the same as `as.numeric(x)`, regardless of the type of x?*
+
+Definitely not, for instance a logical value converted to string first will be treated as any other string that doesn't just contain numbers by `as.numeric()` 
+
+```{r}
+as.numeric(TRUE)
+as.numeric(as.character(TRUE))
+```
+
+> *What is the meaning of `as.logical(x+y)` if x and y are logical vectors? What about `as.logical(x\*y)`, `as.logical(1-x)`, and `as.logical(x!=y)`?*
+
+Huh, does the x+y one function like an OR statement? First the `+` operator converts both values to numeric, then any numeric value greater than 0 gets turned to `TRUE` by `as.logical()`, so as long as at least one of x or y is `TRUE`, the result will be too.
+
+x*y would then be like an AND statement, because if even one is `FALSE`, you multiply by zero to get zero, which gets converted to `FALSE`.
+
+We know from the cross-entropy loss example that wecan use 1 - x to give us the negation of a logical value e.g. `TRUE` becomes `FALSE`, like `!x`.
+
+For the last one I think the `as.logical()` call is doing nothing because the result is already logical.
+
+> *What is the meaning of the following when x is a logical vector?*
+> - *cummin(x) and cummin(!x),*
+
+Whether all values have been `TRUE` up to that point, and the same for `FALSE`.
+
+> - *cummax(x) and cummax(!x),*
+
+Whether any values have been `TRUE` up to that point, and then the same for `FALSE`.
+
+> - *cumsum(x) and cumsum(!x),*
+
+The number of `TRUE` values and the number of `FALSE` values up to that point.
+
+> - *cumprod(x) and cumprod(!x).*
+
+Whether all values have been `TRUE` up to that point, and the same for `FALSE`.
+
+> *Let x be a named numeric vector, e.g., “x <- quantile(runif(100))”. What is the result of  2\*x, mean(x), and round(x, 2)?*
+
+Double every element of the vector. Take the sum of all values in the vector and divide it by the length of the vector. Round every value in the vector to 2 decimal places.
+
+> *What is the meaning of x == NULL?*
+
+Uhh, I'm not exactly sure what that means, it's trying to test each element of `x` for cotaining the value `NULL`, but I don't think that works because of how `NULL`s are handled as zero-length vectors. I know that to test for `NULL` you need to use `is.null()`.
+
+> *Give two ways to create a named character vector.*
+
+Name the elements when creating the vector or uses the `names<-` replacement function.
+```{r named-chr}
+c(this = "that", that = "this")
+
+my_vec <- c("John", "Smith")
+
+names(my_vec) <- c("first_name", "last_name")
+
+my_vec
+```
+
+
+> *Give two ways (discussed above; there are more) to remove the names attribute from an object.*
+
+Use `unname()` or set the attribute to `NULL`.
+
+```{r unname}
+names(my_vec) <- NULL
+
+my_vec
+```
+
